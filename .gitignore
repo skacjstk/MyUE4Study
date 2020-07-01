@@ -348,3 +348,10 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+
+/BullCowGame-starter-kit/Content
+/BullCowGame-starter-kit/Config
+/BullCowGame-starter-kit/BullCowGame.uproject
+/BullCowGame-starter-kit/Source/BullCowGameEditor.Target.cs
+/BullCowGame-starter-kit/Source/BullCowGame.Target.cs
