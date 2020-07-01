@@ -5,6 +5,7 @@
 
 MyTestClass::MyTestClass()
 {
+	return;
 }
 
 MyTestClass::~MyTestClass()
