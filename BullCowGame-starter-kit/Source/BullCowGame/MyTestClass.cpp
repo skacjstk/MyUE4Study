@@ -5,7 +5,7 @@
 
 MyTestClass::MyTestClass()
 {
-	//43번까지 봣음. (udemy)  
+	//44번까지 봣음. (udemy)  
 }
 
 MyTestClass::~MyTestClass()
