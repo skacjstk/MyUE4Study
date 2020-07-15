@@ -10,6 +10,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 	//	PrintLine(FW);	//단어 숫자 출력
 	PrintLine(TEXT("Hello PrintLine"));
 	PrintLine(TEXT("Guess the "+ FW +" letter word! ")); //Magin Number Remove!
+
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
