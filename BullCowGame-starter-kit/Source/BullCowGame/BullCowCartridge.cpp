@@ -1,6 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
-
+	
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
@@ -12,9 +12,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 	PrintLine(TEXT("Hello PrintLine"));
 	PrintLine(TEXT("Guess the "+ FW +" letter word! ")); //Magin Number Remove!
 
-	//Setting up Game
-	HiddenWord = TEXT("cake");	//Set HiddenWord
-	//set Lives
+	InitGame();//Setting up Game
 	
 	//Prompt Player For Guess
 }
@@ -49,3 +47,9 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 	//check user INput
 	//PlayAgain Or Quit
 } 
+
+void UBullCowCartridge::InitGame() {
+	HiddenWord = TEXT("cake");	
+	lives = 4;	//typedef 로 지정해서 int32는 int랑 같은데
+	
+}
