@@ -12,7 +12,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 	PrintLine(TEXT("Hello PrintLine"));
 	PrintLine(TEXT("Guess the "+ FW +" letter word! ")); //Magin Number Remove!
 
-	InitGame();//Setting up Game
+	SetUpGame();//Setting up Game
 	
 	//Prompt Player For Guess
 }
@@ -48,7 +48,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 	//PlayAgain Or Quit
 } 
 
-void UBullCowCartridge::InitGame() {
+void UBullCowCartridge::SetUpGame() {
 	HiddenWord = TEXT("cake");	
 	lives = 4;	//typedef 로 지정해서 int32는 int랑 같은데
 	
