@@ -6,13 +6,13 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     Super::BeginPlay();
 
 	//welcoming player
-	int32 HwLen = HiddenWord.Len();
-	FString FW = FString::FromInt(HwLen);
+	SetUpGame();//Setting up Game
+	FString FW = FString::FromInt(HiddenWord.Len());
+
 	//	PrintLine(FW);	//단어 숫자 출력
 	PrintLine(TEXT("Hello PrintLine"));
 	PrintLine(TEXT("Guess the "+ FW +" letter word! ")); //Magin Number Remove!
-
-	SetUpGame();//Setting up Game
+	//TEXT 는 FString 밖에 안들어감. Magin Number는 하드코딩된 숫자에 그렇게 쓰더라구
 	
 	//Prompt Player For Guess
 }
@@ -21,6 +21,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 {
 	ClearScreen();
 
+	HiddenWord.Len();
 	//Checking PlayerGuess
 
 	if (Input.Equals(HiddenWord)) { // == 도 되는거같음
