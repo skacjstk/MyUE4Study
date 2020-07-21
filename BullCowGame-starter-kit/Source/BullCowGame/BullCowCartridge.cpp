@@ -14,6 +14,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 	PrintLine(TEXT("Guess the "+ FW +" letter word! ")); //Magin Number Remove!
 	//TEXT 는 FString 밖에 안들어감. Magin Number는 하드코딩된 숫자에 그렇게 쓰더라구
 	
+	//[2020.07.21]udemy 언리얼 58 FString Formatting
 	//Prompt Player For Guess
 }
 
