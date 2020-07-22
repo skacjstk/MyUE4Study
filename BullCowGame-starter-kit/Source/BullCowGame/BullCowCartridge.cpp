@@ -17,7 +17,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 	PrintLine(TEXT("Guess the %i letter word! "), HiddenWord.Len());
 	//FString::Printf() 없이도 위의 문장이 실행됨. debug line에서 보다시피
 	//원래는 FString::Printf 를 통해 % 형식 지정자를 사용할 수 있는데
-	//Prompt Player For Guess
+	 //Prompt Player For Guess
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
