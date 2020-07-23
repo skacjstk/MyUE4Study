@@ -17,20 +17,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 		SetUpGame();
 	}
 	else {
-		//Checking PlayerGuess
-		//if(Input == HiddenWord)// == 도 되는거같음
-		if (Input.Equals(HiddenWord)) {
-			PrintLine(TEXT("You have Won!"));
-			EndGame();
-		}
-		else
-		{
-			if (Input.Len() != HiddenWord.Len()) {
-				PrintLine(TEXT("The HiddenWord is %i charactor long, try again."), HiddenWord.Len());
-			}
-				PrintLine(TEXT("You have Lost!"));
-				EndGame();
-		}
+		ProcessGuess(Input);
 	}
 
 
@@ -68,4 +55,33 @@ void UBullCowCartridge::SetUpGame() {
 void UBullCowCartridge::EndGame() {
 	PrintLine(TEXT("Press enter to play again"));	
 	bGameOver = true;
+}
+
+void UBullCowCartridge::ProcessGuess(FString Guess) {
+	//Checking PlayerGuess
+//if(Input == HiddenWord)// == 도 되는거같음
+	if (Guess.Equals(HiddenWord)) {
+		PrintLine(TEXT("You have Won!"));
+		EndGame();
+	}
+	else if (Guess == "") {
+		PrintLine(TEXT("Guess any word"));
+	}
+	else //틀릴 때
+	{
+		lives--;
+		PrintLine(TEXT("Lost a life!"));
+		if (lives > 0)
+		{
+			if (Guess.Len() != HiddenWord.Len()) {
+				PrintLine(TEXT("The HiddenWord is %i charactor long"), HiddenWord.Len());
+			}
+			PrintLine(TEXT("You remaining %i lives, try again."), lives);
+
+		}
+		else {
+			PrintLine(TEXT("You have Lost!"));
+			EndGame();
+		}
+	}
 }
