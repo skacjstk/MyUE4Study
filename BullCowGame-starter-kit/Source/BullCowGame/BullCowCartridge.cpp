@@ -20,6 +20,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 		ProcessGuess(Input);
 	}
 
+	//rest 0724
 
 	//Check If Isogram
 	//Prompt To guess again	
