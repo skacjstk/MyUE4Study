@@ -54,9 +54,9 @@ void UBullCowCartridge::SetUpGame() {
 	 //Prompt Player For Guess
 }
 void UBullCowCartridge::EndGame() {
-	PrintLine(TEXT("Press enter to play again"));	
 	bGameOver = true;
 }
+
 
 void UBullCowCartridge::ProcessGuess(FString Guess) {
 	//Checking PlayerGuess
@@ -64,6 +64,49 @@ void UBullCowCartridge::ProcessGuess(FString Guess) {
 	if (Guess.Equals(HiddenWord)) {
 		PrintLine(TEXT("You have Won!"));
 		EndGame();
+		return;
+	}
+	else if (Guess == "") {
+		PrintLine(TEXT("Guess any word"));
+	}
+
+	//if (IsIsogram) {
+	//	PrintLine(TEXT("아무것도 입력하지 않았다. Guess any word"));
+	//}
+
+	if (Guess.Len() != HiddenWord.Len()) {
+		PrintLine(TEXT("The HiddenWord is %i charactor long"), HiddenWord.Len());
+		PrintLine(TEXT("You remaining %i lives, try again."), lives);
+		return;
+	}
+
+	//Remove Life
+	PrintLine(TEXT("Lost a life!"));
+	lives--;
+
+	if (lives <= 0)	
+	{
+	//	PrintLine(TEXT("No more Life!\nYou have Lost!"));
+		ClearScreen();
+		PrintLine(TEXT("HiddenWord was: %s"), *HiddenWord);
+		PrintLine(TEXT("\nPress enter to play again"));
+		EndGame();
+		return;
+	}
+
+	PrintLine(TEXT("You remaining %i lives, guess again."), lives);
+}
+
+
+/*
+
+void UBullCowCartridge::ProcessGuess(FString Guess) {
+	//Checking PlayerGuess
+//if(Input == HiddenWord)// == 도 되는거같음
+	if (Guess.Equals(HiddenWord)) {
+		PrintLine(TEXT("You have Won!"));
+		EndGame();
+		return;
 	}
 	else if (Guess == "") {
 		PrintLine(TEXT("Guess any word"));
@@ -86,3 +129,4 @@ void UBullCowCartridge::ProcessGuess(FString Guess) {
 		}
 	}
 }
+*/
