@@ -52,6 +52,8 @@ void UBullCowCartridge::SetUpGame() {
 	//FString::Printf() 없이도 위의 문장이 실행됨. debug line에서 보다시피
 	//원래는 FString::Printf 를 통해 % 형식 지정자를 사용할 수 있는데
 	 //Prompt Player For Guess
+
+	IsIsogram(HiddenWord);
 }
 void UBullCowCartridge::EndGame() {
 	bGameOver = true;
@@ -88,6 +90,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess) {
 	{
 	//	PrintLine(TEXT("No more Life!\nYou have Lost!"));
 		ClearScreen();
+		PrintLine(TEXT("You have Lost!"));
 		PrintLine(TEXT("HiddenWord was: %s"), *HiddenWord);
 		PrintLine(TEXT("\nPress enter to play again"));
 		EndGame();
@@ -97,6 +100,14 @@ void UBullCowCartridge::ProcessGuess(FString Guess) {
 	PrintLine(TEXT("You remaining %i lives, guess again."), lives);
 }
 
+bool UBullCowCartridge::IsIsogram(FString Word) const
+{
+	for (int32 index = 0; index < Word.Len(); ++index) {
+		PrintLine(TEXT("%c"), Word[index]);
+	}
+
+	return true;
+}
 
 /*
 
