@@ -53,7 +53,6 @@ void UBullCowCartridge::SetUpGame() {
 	//원래는 FString::Printf 를 통해 % 형식 지정자를 사용할 수 있는데
 	 //Prompt Player For Guess
 
-	IsIsogram(HiddenWord);
 }
 void UBullCowCartridge::EndGame() {
 	bGameOver = true;
@@ -63,13 +62,17 @@ void UBullCowCartridge::EndGame() {
 void UBullCowCartridge::ProcessGuess(FString Guess) {
 	//Checking PlayerGuess
 //if(Input == HiddenWord)// == 도 되는거같음
+	IsIsogram(Guess);
 	if (Guess.Equals(HiddenWord)) {
 		PrintLine(TEXT("You have Won!"));
 		EndGame();
 		return;
 	}
-	else if (Guess == "") {
-		PrintLine(TEXT("Guess any word"));
+	
+	if (!IsIsogram(Guess)) {
+		PrintLine(TEXT("No repeating letters, guess again!")); 
+		//이 게임은 단어가 중복되지 않음 Magic number?
+		return;
 	}
 
 	//if (IsIsogram) {
@@ -102,11 +105,17 @@ void UBullCowCartridge::ProcessGuess(FString Guess) {
 
 bool UBullCowCartridge::IsIsogram(FString Word) const
 {
-	for (int32 index = 0; index < Word.Len(); ++index) {
-		PrintLine(TEXT("%c"), Word[index]);
+	//int32 index = 0;
+	//int32 comparison = index + 1;
+
+	//for문에서만 쓰니까 스코프....
+	for (int32 index = 0, comparison = index + 1; comparison < Word.Len(); ++comparison) {
+		if (Word[index] == Word[comparison])
+			return false;
 	}
 
 	return true;
+
 }
 
 /*
