@@ -109,9 +109,11 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
 	//int32 comparison = index + 1;
 
 	//for문에서만 쓰니까 스코프....
-	for (int32 index = 0, comparison = index + 1; comparison < Word.Len(); ++comparison) {
-		if (Word[index] == Word[comparison])
-			return false;
+	for (int32 index = 0; index < Word.Len(); index++) {
+		for (int32 comparison = index + 1; comparison < Word.Len();++comparison) {
+			if (Word[index] == Word[comparison])
+				return false;
+		}
 	}
 
 	return true;
