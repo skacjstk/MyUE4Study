@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
-	
+#include "HiddenWordList.h"	
+
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
@@ -109,6 +110,7 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
 	//int32 comparison = index + 1;
 
 	//for문에서만 쓰니까 스코프....
+	//index - < Word.Len() 해도 된다.
 	for (int32 index = 0; index < Word.Len(); index++) {
 		for (int32 comparison = index + 1; comparison < Word.Len();++comparison) {
 			if (Word[index] == Word[comparison])
