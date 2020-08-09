@@ -59,7 +59,7 @@ void UBullCowCartridge::EndGame() {
 }
 
 
-void UBullCowCartridge::ProcessGuess(FString Guess) {
+void UBullCowCartridge::ProcessGuess(const FString& Guess) {
 	//Checking PlayerGuess
 //if(Input == HiddenWord)// == 도 되는거같음
 	IsIsogram(Guess);
@@ -103,7 +103,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess) {
 	PrintLine(TEXT("You remaining %i lives, guess again."), lives);
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word) const
+bool UBullCowCartridge::IsIsogram(const FString& Word) const
 {
 	//int32 index = 0;
 	//int32 comparison = index + 1;
@@ -121,7 +121,7 @@ bool UBullCowCartridge::IsIsogram(FString Word) const
 
 }
 
-TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordList) const
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList) const
 {
 	TArray<FString> ValidWords;
 
@@ -134,36 +134,3 @@ TArray<FString> UBullCowCartridge::GetValidWords(TArray<FString> WordList) const
 	return ValidWords;
 
 }
-
-/*
-
-void UBullCowCartridge::ProcessGuess(FString Guess) {
-	//Checking PlayerGuess
-//if(Input == HiddenWord)// == 도 되는거같음
-	if (Guess.Equals(HiddenWord)) {
-		PrintLine(TEXT("You have Won!"));
-		EndGame();
-		return;
-	}
-	else if (Guess == "") {
-		PrintLine(TEXT("Guess any word"));
-	}
-	else //틀릴 때
-	{
-		lives--;
-		PrintLine(TEXT("Lost a life!"));
-		if (lives > 0)
-		{
-			if (Guess.Len() != HiddenWord.Len()) {
-				PrintLine(TEXT("The HiddenWord is %i charactor long"), HiddenWord.Len());
-			}
-			PrintLine(TEXT("You remaining %i lives, try again."), lives);
-
-		}
-		else {
-			PrintLine(TEXT("You have Lost!"));
-			EndGame();
-		}
-	}
-}
-*/
