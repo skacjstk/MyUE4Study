@@ -2,16 +2,16 @@
 #include "BullCowCartridge.h"
 #include "HiddenWordList.h"
  
+//include "Math/UnrealMathUtility.h" // 헤더에 coreminimal.h 안에 있음
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-	//welcoming player
 
-	const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordtxtFile.txt");
-//	FFileHelper::LoadFileToStringArray(Wordtxt, *WordListPath);
+//	const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordtxtFile.txt");
+//	FFileHelper::LoadFileToStringArray(Wordtxt, *WordListPath);  //파일에서 읽어들이기 실패
 
 	SetUpGame();//Setting up Game
 
@@ -22,7 +22,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 	for (int32 i = 0; i < 5; ++i) {
 		PrintLine(TEXT("%s"), *Words[i]);
 	}
-	//PrintLine(FString::Printf(TEXT("The HiddenWord is: %s\n and %i long "), *HiddenWord,HiddenWord.Len())); //Debug Line
+	//PrintLine(FString::Printf(TEXT("Debug: The HiddenWord is: %s\n and %i long "), *HiddenWord,HiddenWord.Len())); //Debug Line
 
 	
 }
@@ -39,7 +39,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 } 
 
 void UBullCowCartridge::SetUpGame() {
-	HiddenWord = TEXT("cakes");	
+	HiddenWord = TEXT("cakes");
+	//HiddenWord = GetValidWords(Wordtxt)[FMath::RandRange(0, GetValidWords(Wordtxt).Num())-1];
 	lives = 4;	//typedef 로 지정해서 int32는 int랑 같은데
 	bGameOver = false;
 
