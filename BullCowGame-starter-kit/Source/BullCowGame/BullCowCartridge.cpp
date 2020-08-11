@@ -13,6 +13,8 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 //	const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordtxtFile.txt");
 //	FFileHelper::LoadFileToStringArray(Wordtxt, *WordListPath);  //파일에서 읽어들이기 실패
 
+	//만약 게임 할때마다 Words 가 변한다면 setupgaem 에 넣을 것
+	Isograms = GetValidWords(Words);
 	SetUpGame();//Setting up Game
 
 	PrintLine(TEXT("The number of possible words is %i"), Words.Num()); 
@@ -39,9 +41,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 } 
 
 void UBullCowCartridge::SetUpGame() {
-	HiddenWord = TEXT("cakes");
-	//HiddenWord = GetValidWords(Wordtxt)[FMath::RandRange(0, GetValidWords(Wordtxt).Num())-1];
-	lives = 4;	//typedef 로 지정해서 int32는 int랑 같은데
+	//HiddenWord = TEXT("cakes");	
+
+	HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num())];
+	lives = HiddenWord.Len();	//typedef 로 지정해서 int32는 int랑 같은데
 	bGameOver = false;
 
 	//	PrintLine(FW);	//단어 숫자 출력
