@@ -19,12 +19,10 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
 	PrintLine(TEXT("The number of possible words is %i"), Words.Num()); 
 	PrintLine(TEXT("The number of valid words is %i"), GetValidWords(Words).Num());
-
-
-	for (int32 i = 0; i < 5; ++i) {
-		PrintLine(TEXT("%s"), *Words[i]);
-	}
-	//PrintLine(FString::Printf(TEXT("Debug: The HiddenWord is: %s\n and %i long "), *HiddenWord,HiddenWord.Len())); //Debug Line
+//	for (int32 i = 0; i < 5; ++i) {
+//		PrintLine(TEXT("%s"), *Words[i]);
+//	}
+	PrintLine(FString::Printf(TEXT("Debug: The HiddenWord is: %s\n and %i long "), *HiddenWord,HiddenWord.Len())); //Debug Line
 
 	
 }
@@ -104,6 +102,13 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess) {
 		return;
 	}
 
+
+	int32 Bulls, Cows;
+	//가능한 한 매개변수로 값 변경을 안하는 주요 이유 중 하나
+	// 쓰레기 값이 될 수 있다.
+	GetBullCows(Guess, Bulls, Cows);
+
+	PrintLine(TEXT("You %i Bulls %i Cows"), Bulls, Cows);
 	PrintLine(TEXT("You remaining %i lives, guess again."), lives);
 }
 
@@ -137,4 +142,23 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList
 	}
 	return ValidWords;
 
+}
+void UBullCowCartridge::GetBullCows(const FString& Guess, int32& BullCount, int32& CowCount) const
+{
+	BullCount = 0;
+	CowCount = 0;
+
+
+	for (int32 guessIndex = 0; guessIndex < Guess.Len(); ++guessIndex) {
+		if (Guess[guessIndex] == HiddenWord[guessIndex]) {
+			++BullCount;
+			continue;
+		}
+		for (int32 hiddenIndex = 0; hiddenIndex < HiddenWord.Len(); ++hiddenIndex) {
+			if (Guess[hiddenIndex] == HiddenWord[hiddenIndex]) {
+				++CowCount;
+				continue;
+			}
+		}
+	}
 }
