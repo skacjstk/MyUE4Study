@@ -9,24 +9,12 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-
 //	const FString WordListPath = FPaths::ProjectContentDir() / TEXT("WordLists/HiddenWordtxtFile.txt");
 //	FFileHelper::LoadFileToStringArray(Wordtxt, *WordListPath);  //파일에서 읽어들이기 실패
-
 	//만약 게임 할때마다 Words 가 변한다면 setupgaem 에 넣을 것
 	Isograms = GetValidWords(Words);
 	SetUpGame();//Setting up Game
-
-	PrintLine(TEXT("The number of possible words is %i"), Words.Num()); 
-	PrintLine(TEXT("The number of valid words is %i"), GetValidWords(Words).Num());
-//	for (int32 i = 0; i < 5; ++i) {
-//		PrintLine(TEXT("%s"), *Words[i]);
-//	}
-	PrintLine(FString::Printf(TEXT("Debug: The HiddenWord is: %s\n and %i long "), *HiddenWord,HiddenWord.Len())); //Debug Line
-
-	
 }
-
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
 	if (bGameOver) {	//게임오버 라면
@@ -39,8 +27,6 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 } 
 
 void UBullCowCartridge::SetUpGame() {
-	//HiddenWord = TEXT("cakes");	
-
 	HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num())];
 	lives = HiddenWord.Len();	//typedef 로 지정해서 int32는 int랑 같은데
 	bGameOver = false;
@@ -55,8 +41,21 @@ void UBullCowCartridge::SetUpGame() {
 	//원래는 FString::Printf 를 통해 % 형식 지정자를 사용할 수 있는데
 	 //Prompt Player For Guess
 
+	PrintLine(FString::Printf(TEXT("Debug: The HiddenWord is: %s\n and %i long "), *HiddenWord, HiddenWord.Len())); //Debug Line
+	DebugFunction();
+}
+
+void UBullCowCartridge::DebugFunction() {	
+	PrintLine(TEXT("The number of possible words is %i"), Words.Num()); 
+	PrintLine(TEXT("The number of valid words is %i"), GetValidWords(Words).Num());
 }
 void UBullCowCartridge::EndGame() {
+	if (lives <= 0)
+	{
+		++winRate.lose;
+	}else {
+		++winRate.win;
+	}
 	bGameOver = true;
 }
 
@@ -103,12 +102,12 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess) {
 	}
 
 
-	int32 Bulls, Cows;
+	//int32 Bulls, Cows;
 	//가능한 한 매개변수로 값 변경을 안하는 주요 이유 중 하나
 	// 쓰레기 값이 될 수 있다.
-	GetBullCows(Guess, Bulls, Cows);
+	FBullCowCount score = GetBullCows(Guess);
 
-	PrintLine(TEXT("You %i Bulls %i Cows"), Bulls, Cows);
+	PrintLine(TEXT("You %i Bulls %i Cows"), score.bulls, score.cows);
 	PrintLine(TEXT("You remaining %i lives, guess again."), lives);
 }
 
@@ -125,9 +124,7 @@ bool UBullCowCartridge::IsIsogram(const FString& Word) const
 				return false;
 		}
 	}
-
 	return true;
-
 }
 
 TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList) const
@@ -143,23 +140,22 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList
 	return ValidWords;
 
 }
-void UBullCowCartridge::GetBullCows(const FString& Guess, int32& BullCount, int32& CowCount) const
+FBullCowCount UBullCowCartridge::GetBullCows(const FString& Guess) const
 {
-	BullCount = 0;
-	CowCount = 0;
+	FBullCowCount count;
 	//bull= 같은 위치 같은 단어
 	//cow = 다른 위치 같은 단어
-
 	for (int32 guessIndex = 0; guessIndex < Guess.Len(); ++guessIndex) {
 		if (Guess[guessIndex] == HiddenWord[guessIndex]) {
-			++BullCount;
+			++count.bulls;
 			continue;
 		}
 		for (int32 hiddenIndex = 0; hiddenIndex < HiddenWord.Len(); ++hiddenIndex) {
 			if (Guess[guessIndex] == HiddenWord[hiddenIndex]) {
-				++CowCount;
+				++count.cows;
 				break;
 			}
 		}
 	}
+	return count;
 }
