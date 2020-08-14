@@ -147,7 +147,8 @@ void UBullCowCartridge::GetBullCows(const FString& Guess, int32& BullCount, int3
 {
 	BullCount = 0;
 	CowCount = 0;
-
+	//bull= 같은 위치 같은 단어
+	//cow = 다른 위치 같은 단어
 
 	for (int32 guessIndex = 0; guessIndex < Guess.Len(); ++guessIndex) {
 		if (Guess[guessIndex] == HiddenWord[guessIndex]) {
@@ -155,9 +156,9 @@ void UBullCowCartridge::GetBullCows(const FString& Guess, int32& BullCount, int3
 			continue;
 		}
 		for (int32 hiddenIndex = 0; hiddenIndex < HiddenWord.Len(); ++hiddenIndex) {
-			if (Guess[hiddenIndex] == HiddenWord[hiddenIndex]) {
+			if (Guess[guessIndex] == HiddenWord[hiddenIndex]) {
 				++CowCount;
-				continue;
+				break;
 			}
 		}
 	}
