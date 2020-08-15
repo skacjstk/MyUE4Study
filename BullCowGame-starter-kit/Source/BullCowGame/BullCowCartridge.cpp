@@ -24,7 +24,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 	else {
 		ProcessGuess(Input);
 	}
-} 
+}  
 
 void UBullCowCartridge::SetUpGame() {
 	HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num())];
