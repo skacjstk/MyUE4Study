@@ -24,8 +24,8 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
 	else {
 		ProcessGuess(Input);
 	}
-}  
-
+}   
+ 
 void UBullCowCartridge::SetUpGame() {
 	HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num())];
 	lives = HiddenWord.Len();	//typedef 로 지정해서 int32는 int랑 같은데
