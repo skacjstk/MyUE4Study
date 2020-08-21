@@ -19,8 +19,10 @@ void UWorldPosition::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
-	
+	//LogTemp 카테고리에 3가지 Verbosity, 그리고 메시지
+	UE_LOG(LogTemp, Display, TEXT("Just log, Hello !")); //회색
+	UE_LOG(LogTemp, Warning, TEXT("This is a Warning")); //노란색
+	UE_LOG(LogTemp, Error, TEXT("This is a Error"));	//빨간색 
 }
 
 
