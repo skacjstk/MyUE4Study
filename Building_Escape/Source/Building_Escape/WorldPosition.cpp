@@ -12,7 +12,7 @@ UWorldPosition::UWorldPosition()
 
 	// ...
 }
-  
+   
 
 // Called when the game starts
 void UWorldPosition::BeginPlay()
