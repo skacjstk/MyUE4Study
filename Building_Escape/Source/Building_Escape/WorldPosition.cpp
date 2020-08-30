@@ -24,12 +24,13 @@ void UWorldPosition::BeginPlay()
 	FString objectName = GetOwner()->GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *objectName);
 	FString objectPosition = GetOwner()->GetActorLocation().ToString();
-	FString objectPositionTransform = GetOwner()->GetActorTransform().GetLocation().ToString();
+	FString objectPositionTransform = GetOwner()->GetActorTransform().GetScale3D().ToString();
 	//xyz 위치
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *objectPosition);
 	//xyz 위치 회전 스케일  (GetLoaction 추가시 위와 같음)
 	UE_LOG(LogTemp, Warning, TEXT("trans %s"), *objectPositionTransform);
-}
+	//Scale3D, Rotation, Location
+} 
 
 
 // Called every frame
