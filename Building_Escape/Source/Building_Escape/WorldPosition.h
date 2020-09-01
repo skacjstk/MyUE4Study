@@ -6,7 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "WorldPosition.generated.h"
 
-
+ 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BUILDING_ESCAPE_API UWorldPosition : public UActorComponent
 {
