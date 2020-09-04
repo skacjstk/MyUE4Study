@@ -19,7 +19,7 @@ UWorldPosition::UWorldPosition()
 void UWorldPosition::BeginPlay()
 {
 	Super::BeginPlay();
-
+	 
 	//200829  udemy ¾ð¸®¾ó 94 
 	FString objectName = GetOwner()->GetName();
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *objectName);
