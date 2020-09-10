@@ -19,15 +19,8 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
+	
 
-	float rotate = 90.f; //90.0 의 표현 
-	 
-	FRotator currentRotation = GetOwner()->GetActorRotation();
-	currentRotation.Yaw += 90.0f;
-	GetOwner()->SetActorRotation(currentRotation);
-
-//	FRotator openDoor = { 0.f, 90.f, 0.f };
-	//강의에서는 하드코딩된 값을 입력해주며, 이미 90도로 돌아가있는 문이 열리지 않음을 문제로 지목했음
 
 }
 //https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/__ctor/5/index.html
@@ -38,6 +31,20 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
+
+	float currentYaw = GetOwner()->GetActorRotation().Yaw;
+	FRotator openDoor = { 0.f, targetYaw, 0.f };
+	//Change Yaw of OpenDoor
+//	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, targetYaw, DeltaTime, 45); //이게 선형보간,
+	//openDoor.Yaw = FMath::Lerp(currentYaw, targetYaw, 0.01f);
+	openDoor.Yaw = FMath::FInterpTo(currentYaw, targetYaw, DeltaTime, 2);  //얘랑 Lerp 가 지수 보간
+	GetOwner()->SetActorRotation(openDoor);
+
+	//FRotator currentRotation = GetOwner()->GetActorRotation();
+	//currentRotation.Yaw += 90.0f;
+	//	FRotator openDoor = { 0.f, 90.f, 0.f };
+		//강의에서는 하드코딩된 값을 입력해주며, 이미 90도로 돌아가있는 문이 열리지 않음을 문제로 지목했음
 }
 
