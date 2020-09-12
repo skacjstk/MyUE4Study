@@ -35,7 +35,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
 	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 
-
+	 
 	FRotator openDoor = GetOwner()->GetActorRotation();
 	openDoor.Yaw = currentYaw; 
 	//Change Yaw of OpenDoor
