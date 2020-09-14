@@ -21,7 +21,8 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	currentYaw = GetOwner()->GetActorRotation().Yaw;
-	targetYaw = currentYaw + targetYaw;
+//	targetYaw = currentYaw + targetYaw;
+	targetYaw += currentYaw;
 	//targetYaw 는 90.0f로 초기화되어 있다. 
 }
 //https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/__ctor/5/index.html
@@ -48,6 +49,6 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	//FRotator currentRotation = GetOwner()->GetActorRotation();
 	//currentRotation.Yaw += 90.0f;
 	//	FRotator openDoor = { 0.f, 90.f, 0.f };
-		//강의에서는 하드코딩된 값을 입력해주며, 이미 90도로 돌아가있는 문이 열리지 않음을 문제로 지목했음
+	//강의에서는 하드코딩된 값을 입력해주며, 이미 90도로 돌아가있는 문이 열리지 않음을 문제로 지목했음
 }
 
