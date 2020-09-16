@@ -43,7 +43,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 //	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, targetYaw, DeltaTime, 45); //이게 선형보간,
 //	openDoor.Yaw = FMath::Lerp(currentYaw, targetYaw, 0.02f);
 	currentYaw = FMath::FInterpTo(currentYaw, targetYaw, DeltaTime, 2);  //얘랑 Lerp 가 지수 보간
-	
+	 
 	GetOwner()->SetActorRotation(openDoor);
 
 	//FRotator currentRotation = GetOwner()->GetActorRotation();
