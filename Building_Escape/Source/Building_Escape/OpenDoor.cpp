@@ -32,25 +32,25 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	if (PressurePlate->IsOverlappingActor(ActorThatOpens)) {
+		OpenDoor(DeltaTime);
+	}	
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
-	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
-
-	 
+}
+void UOpenDoor::OpenDoor(float DeltaTime)
+{
+	//	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
+	//	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator openDoor = GetOwner()->GetActorRotation();
 	//Change Yaw of OpenDoor
 //	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, targetYaw, DeltaTime, 45); //이게 선형보간,
 //	currentYaw = FMath::Lerp(currentYaw, targetYaw, 0.03f);
 	currentYaw = FMath::Lerp(currentYaw, targetYaw, DeltaTime * 1.f);
 //	currentYaw = FMath::FInterpTo(currentYaw, targetYaw, DeltaTime, 3);  //얘랑 Lerp 가 지수 보간
-	UE_LOG(LogTemp, Warning, TEXT("DeltaTime is %f"), DeltaTime);
-	 
+//	UE_LOG(LogTemp, Warning, TEXT("DeltaTime is %f"), DeltaTime);
+
 	openDoor.Yaw = currentYaw;
 	GetOwner()->SetActorRotation(openDoor);
-
-	//FRotator currentRotation = GetOwner()->GetActorRotation();
-	//currentRotation.Yaw += 90.0f;
-	//	FRotator openDoor = { 0.f, 90.f, 0.f };
-	//강의에서는 하드코딩된 값을 입력해주며, 이미 90도로 돌아가있는 문이 열리지 않음을 문제로 지목했음
 }
+
 
