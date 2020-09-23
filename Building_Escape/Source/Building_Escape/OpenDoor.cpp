@@ -19,11 +19,14 @@ UOpenDoor::UOpenDoor()
 void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
-
 	currentYaw = GetOwner()->GetActorRotation().Yaw;
 //	targetYaw = currentYaw + targetYaw;
 	targetYaw += currentYaw;
 	//targetYaw 는 90.0f로 초기화되어 있다. 
+
+	if (!PressurePlate) {
+		UE_LOG(LogTemp, Error, TEXT("%s has the open door component on it, but no pressurePlate set!*"), *GetOwner()->GetName());
+	}
 }
 //https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/__ctor/5/index.html
 //YZX  (피치 요 롤 순서)
@@ -32,10 +35,9 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (PressurePlate->IsOverlappingActor(ActorThatOpens)) {
+	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)) {
 		OpenDoor(DeltaTime);
 	}	
-
 }
 void UOpenDoor::OpenDoor(float DeltaTime)
 {
