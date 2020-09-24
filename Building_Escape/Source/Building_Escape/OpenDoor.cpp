@@ -26,7 +26,7 @@ void UOpenDoor::BeginPlay()
 
 	if (!PressurePlate) {
 		UE_LOG(LogTemp, Error, TEXT("%s has the open door component on it, but no pressurePlate set!*"), *GetOwner()->GetName());
-	}
+	} 
 }
 //https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/__ctor/5/index.html
 //YZX  (피치 요 롤 순서)
