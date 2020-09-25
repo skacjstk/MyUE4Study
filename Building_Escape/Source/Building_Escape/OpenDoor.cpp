@@ -3,6 +3,8 @@
 
 #include "OpenDoor.h"
 #include "GameFramework/Actor.h"
+#include "GameFramework/PlayerController.h"
+#include "Engine/World.h"
  
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
@@ -10,7 +12,7 @@ UOpenDoor::UOpenDoor()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
+	
 	// ...
 }
 
@@ -23,10 +25,12 @@ void UOpenDoor::BeginPlay()
 //	targetYaw = currentYaw + targetYaw;
 	targetYaw += currentYaw;
 	//targetYaw 는 90.0f로 초기화되어 있다. 
-
 	if (!PressurePlate) {
 		UE_LOG(LogTemp, Error, TEXT("%s has the open door component on it, but no pressurePlate set!*"), *GetOwner()->GetName());
+		GetOwner()->SetActorTickEnabled(false);
 	} 
+	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
+
 }
 //https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/__ctor/5/index.html
 //YZX  (피치 요 롤 순서)
@@ -35,14 +39,14 @@ void UOpenDoor::BeginPlay()
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)) {
+	if (PressurePlate->IsOverlappingActor(ActorThatOpens)) {
 		OpenDoor(DeltaTime);
 	}	
 }
 void UOpenDoor::OpenDoor(float DeltaTime)
 {
-	//	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
-	//	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator openDoor = GetOwner()->GetActorRotation();
 	//Change Yaw of OpenDoor
 //	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, targetYaw, DeltaTime, 45); //이게 선형보간,
