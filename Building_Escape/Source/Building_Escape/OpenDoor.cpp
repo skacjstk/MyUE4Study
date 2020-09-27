@@ -24,7 +24,7 @@ void UOpenDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	currentYaw = GetOwner()->GetActorRotation().Yaw;
-//	targetYaw = currentYaw + targetYaw;
+	initialYaw = currentYaw;
 	targetYaw += currentYaw;
 	//targetYaw 는 90.0f로 초기화되어 있다. 
 	if (!PressurePlate) {
@@ -46,7 +46,20 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)) {
 		OpenDoor(DeltaTime);
-	}	
+	}
+	else {
+		CloseDoor(DeltaTime);
+	}
+}
+void UOpenDoor::CloseDoor(float DeltaTime)
+{
+//	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
+//	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
+	FRotator closeDoor = GetOwner()->GetActorRotation();
+	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, 4);
+	
+	closeDoor.Yaw = currentYaw;
+	GetOwner()->SetActorRotation(closeDoor);
 }
 void UOpenDoor::OpenDoor(float DeltaTime)
 {
