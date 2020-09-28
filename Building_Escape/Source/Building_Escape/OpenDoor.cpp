@@ -46,8 +46,12 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)) {
 		OpenDoor(DeltaTime);
+		doorLastOpened = GetWorld()->GetTimeSeconds();
+		// 문이 마지막에 열린 시간. = 문이 열린 시간
 	}
 	else {
+		if(doorLastOpened + doorCloseDelay < GetWorld()->GetTimeSeconds())
+		//문이 x 초 보다 길게 연결되었다면;
 		CloseDoor(DeltaTime);
 	}
 }
@@ -56,7 +60,7 @@ void UOpenDoor::CloseDoor(float DeltaTime)
 //	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
 //	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator closeDoor = GetOwner()->GetActorRotation();
-	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, 4);
+	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime,3);
 	
 	closeDoor.Yaw = currentYaw;
 	GetOwner()->SetActorRotation(closeDoor);
@@ -69,7 +73,7 @@ void UOpenDoor::OpenDoor(float DeltaTime)
 	//Change Yaw of OpenDoor
 //	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, targetYaw, DeltaTime, 45); //이게 선형보간,
 //	currentYaw = FMath::Lerp(currentYaw, targetYaw, 0.03f);
-	currentYaw = FMath::Lerp(currentYaw, targetYaw, DeltaTime * 1.f);
+	currentYaw = FMath::Lerp(currentYaw, targetYaw, DeltaTime * 1.3f);
 //	currentYaw = FMath::FInterpTo(currentYaw, targetYaw, DeltaTime, 3);  //얘랑 Lerp 가 지수 보간
 //	UE_LOG(LogTemp, Warning, TEXT("DeltaTime is %f"), DeltaTime);
 
