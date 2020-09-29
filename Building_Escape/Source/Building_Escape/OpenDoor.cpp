@@ -25,8 +25,8 @@ void UOpenDoor::BeginPlay()
 	Super::BeginPlay();
 	currentYaw = GetOwner()->GetActorRotation().Yaw;
 	initialYaw = currentYaw;
-	targetYaw += currentYaw;
-	//targetYaw 는 90.0f로 초기화되어 있다. 
+	openAngle += currentYaw;
+	//openAngle 는 90.0f로 초기화되어 있다. 
 	if (!PressurePlate) {
 		UE_LOG(LogTemp, Error, TEXT("%s has the open door component on it, but no pressurePlate set!*"), *GetOwner()->GetName());
 	//	GetOwner()->SetActorTickEnabled(false);
@@ -60,7 +60,7 @@ void UOpenDoor::CloseDoor(float DeltaTime)
 //	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
 //	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator closeDoor = GetOwner()->GetActorRotation();
-	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime,3);
+	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, doorCloseSpeed);
 	
 	closeDoor.Yaw = currentYaw;
 	GetOwner()->SetActorRotation(closeDoor);
@@ -71,10 +71,10 @@ void UOpenDoor::OpenDoor(float DeltaTime)
 //	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator openDoor = GetOwner()->GetActorRotation();
 	//Change Yaw of OpenDoor
-//	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, targetYaw, DeltaTime, 45); //이게 선형보간,
-//	currentYaw = FMath::Lerp(currentYaw, targetYaw, 0.03f);
-	currentYaw = FMath::Lerp(currentYaw, targetYaw, DeltaTime * 1.3f);
-//	currentYaw = FMath::FInterpTo(currentYaw, targetYaw, DeltaTime, 3);  //얘랑 Lerp 가 지수 보간
+//	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, openAngle, DeltaTime, 45); //이게 선형보간,
+//	currentYaw = FMath::Lerp(currentYaw, openAngle, 0.03f);
+//	currentYaw = FMath::Lerp(currentYaw, openAngle, DeltaTime * doorMoveSpeed);
+	currentYaw = FMath::FInterpTo(currentYaw, openAngle, DeltaTime, doorOpenSpeed);  //얘랑 Lerp 가 지수 보간
 //	UE_LOG(LogTemp, Warning, TEXT("DeltaTime is %f"), DeltaTime);
 
 	openDoor.Yaw = currentYaw;
