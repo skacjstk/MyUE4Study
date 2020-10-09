@@ -40,7 +40,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
 		OUT playerViewPointLocation,
 		OUT playerViewPointRotation
-	);
+	); 
 	//define OUT, 코드의 가독성을 위해 out parameter 임을 명시함.
 	//플레이어가 보는 거리 줄 그리기
 	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
