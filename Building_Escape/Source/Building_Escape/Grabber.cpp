@@ -44,7 +44,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//define OUT, 코드의 가독성을 위해 out parameter 임을 명시함.
 	//플레이어가 보는 거리 줄 그리기
 	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
-	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
 	DrawDebugLine(
 		GetWorld(),
 		playerViewPointLocation,
@@ -55,12 +54,24 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		0,
 		5.f			//5픽셀?
 	);
-	UE_LOG(LogTemp, Warning, TEXT("player Location: %s , Rotation: %s , lineTraceEnd: %s, else: %s"),
-		*playerViewPointLocation.ToString(),
-		*playerViewPointRotation.ToString(),
-		*lineTraceEnd.ToString(),
-		*question.ToString()
-	);
+// Rotation 이 내가 보는 방향의 x y z 를 0~1 사이의 값으로 표현해주고 ....
+//	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
+//	FVector question2 = playerViewPointRotation.Vector();
+//	FVector question3 = playerViewPointRotation.Vector()*reach;
+//	UE_LOG(LogTemp, Warning, TEXT("End: %s, Loc+Rot: %s, Loc:%s, Rot: %s, %Rot*reach: %s"),
+//		*lineTraceEnd.ToString(),
+//		*question.ToString(),
+//		*playerViewPointLocation.ToString(),
+//		*question2.ToString(),
+//		*question3.ToString()
+//	);
+
+//	UE_LOG(LogTemp, Warning, TEXT("player Location: %s , Rotation: %s , lineTraceEnd: %s, else: %s"),
+//		*playerViewPointLocation.ToString(),
+//		*playerViewPointRotation.ToString(),
+//		*lineTraceEnd.ToString(),
+//		*question.ToString()
+//	);
 
 	// ray-cast out  거리측정
 	//
