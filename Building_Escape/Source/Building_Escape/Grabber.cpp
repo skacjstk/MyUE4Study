@@ -53,7 +53,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		0.f,
 		0,
 		5.f			//5픽셀?
-	);
+	); 
 // Rotation 이 내가 보는 방향의 x y z 를 0~1 사이의 값으로 표현해주고 ....
 //	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
 //	FVector question2 = playerViewPointRotation.Vector();
