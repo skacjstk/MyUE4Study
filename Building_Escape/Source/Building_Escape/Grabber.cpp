@@ -1,5 +1,6 @@
 // Copyright nam seok won
 
+#include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
 #include "Grabber.h"
@@ -32,7 +33,7 @@ void UGrabber::BeginPlay()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
+
 	// 플레이어 뷰포트 얻기
 	FVector playerViewPointLocation;
 	FRotator playerViewPointRotation;
@@ -40,7 +41,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
 		OUT playerViewPointLocation,
 		OUT playerViewPointRotation
-	); 
+	);
 	//define OUT, 코드의 가독성을 위해 out parameter 임을 명시함.
 	//플레이어가 보는 거리 줄 그리기
 	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
@@ -48,32 +49,44 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		GetWorld(),
 		playerViewPointLocation,
 		lineTraceEnd,
-		FColor(0,255,0),	//초록 선
+		FColor(0, 255, 0),	//초록 선
 		false,
 		0.f,
 		0,
 		5.f			//5픽셀?
-	); 
-// Rotation 이 내가 보는 방향의 x y z 를 0~1 사이의 값으로 표현해주고 ....
-//	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
-//	FVector question2 = playerViewPointRotation.Vector();
-//	FVector question3 = playerViewPointRotation.Vector()*reach;
-//	UE_LOG(LogTemp, Warning, TEXT("End: %s, Loc+Rot: %s, Loc:%s, Rot: %s, %Rot*reach: %s"),
-//		*lineTraceEnd.ToString(),
-//		*question.ToString(),
-//		*playerViewPointLocation.ToString(),
-//		*question2.ToString(),
-//		*question3.ToString()
-//	);
+	);
+	// Rotation 이 내가 보는 방향의 x y z 를 0~1 사이의 값으로 표현해주고 ....
+	//	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
+	//	FVector question2 = playerViewPointRotation.Vector();
+	//	FVector question3 = playerViewPointRotation.Vector()*reach;
+	//	UE_LOG(LogTemp, Warning, TEXT("End: %s, Loc+Rot: %s, Loc:%s, Rot: %s, %Rot*reach: %s"),
+	//		*lineTraceEnd.ToString(),
+	//		*question.ToString(),
+	//		*playerViewPointLocation.ToString(),
+	//		*question2.ToString(),
+	//		*question3.ToString()
+	//	);
 
-//	UE_LOG(LogTemp, Warning, TEXT("player Location: %s , Rotation: %s , lineTraceEnd: %s, else: %s"),
-//		*playerViewPointLocation.ToString(),
-//		*playerViewPointRotation.ToString(),
-//		*lineTraceEnd.ToString(),
-//		*question.ToString()
-//	);
+	//	UE_LOG(LogTemp, Warning, TEXT("player Location: %s , Rotation: %s , lineTraceEnd: %s"),
+	//		*playerViewPointLocation.ToString(),
+	//		*playerViewPointRotation.ToString(),
+	//		*lineTraceEnd.ToString(),
+	//	);
 
-	// ray-cast out  거리측정
-	//
+	FHitResult hit;
+	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner());
+
+	//ray-cast out to a certain distance (reach) 
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT hit,
+		playerViewPointLocation,
+		lineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		traceParams
+	);
+	AActor* actorHit = hit.GetActor();
+	if(actorHit)
+		UE_LOG(LogTemp, Error, TEXT("Hit Object is: %s"), *(actorHit->GetName()));
+
 }
 
