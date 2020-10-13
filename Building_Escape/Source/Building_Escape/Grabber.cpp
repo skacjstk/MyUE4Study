@@ -75,7 +75,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 	FHitResult hit;
 	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner());
-
+	 
 	//ray-cast out to a certain distance (reach) 
 	GetWorld()->LineTraceSingleByObjectType(
 		OUT hit,
