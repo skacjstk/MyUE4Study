@@ -24,8 +24,14 @@ void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
 	// ...
-	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty"));
-	
+//	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty"));
+	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (physicsHandle) {
+		//pyhcics is found 
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
+	}
 }
 
 
@@ -33,6 +39,7 @@ void UGrabber::BeginPlay()
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
 
 	// 플레이어 뷰포트 얻기
 	FVector playerViewPointLocation;
@@ -86,7 +93,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	);
 	AActor* actorHit = hit.GetActor();
 	if(actorHit)
-		UE_LOG(LogTemp, Error, TEXT("Hit Object is: %s"), *(actorHit->GetName()));
+		UE_LOG(LogTemp, Display, TEXT("Hit Object is: %s"), *(actorHit->GetName()));
 
 }
 
