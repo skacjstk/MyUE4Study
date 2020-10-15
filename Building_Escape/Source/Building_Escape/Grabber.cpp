@@ -73,7 +73,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//		*question2.ToString(),
 	//		*question3.ToString()
 	//	);
-
+	 
 	//	UE_LOG(LogTemp, Warning, TEXT("player Location: %s , Rotation: %s , lineTraceEnd: %s"),
 	//		*playerViewPointLocation.ToString(),
 	//		*playerViewPointRotation.ToString(),
