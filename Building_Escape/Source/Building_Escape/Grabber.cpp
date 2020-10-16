@@ -28,10 +28,26 @@ void UGrabber::BeginPlay()
 	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (physicsHandle) {
 		//pyhcics is found 
+
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
 	}
+
+	inputComponent = GetOwner()->FindComponentByClass<UInputComponent>(); //가장 처음 발견된 것만 가져옴
+	if (inputComponent) {
+		UE_LOG(LogTemp, Warning, TEXT("input Component found on %s!"), *GetOwner()->GetName());
+		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("input Component Missing %s!"), *GetOwner()->GetName());
+
+	}
+}
+
+void UGrabber::Grab() {
+	UE_LOG(LogTemp, Warning, TEXT("Grabber Press %s!"),"!");
+
 }
 
 
