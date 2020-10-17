@@ -27,8 +27,7 @@ void UGrabber::BeginPlay()
 //	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty"));
 	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (physicsHandle) {
-		//pyhcics is found 
-
+		//pyhcics is found
 	}
 	else {
 		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
@@ -38,16 +37,15 @@ void UGrabber::BeginPlay()
 	if (inputComponent) {
 		UE_LOG(LogTemp, Warning, TEXT("input Component found on %s!"), *GetOwner()->GetName());
 		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
-	}
-	else {
-		UE_LOG(LogTemp, Warning, TEXT("input Component Missing %s!"), *GetOwner()->GetName());
-
+		inputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Released);
 	}
 }
 
 void UGrabber::Grab() {
 	UE_LOG(LogTemp, Warning, TEXT("Grabber Press %s!"),"!");
-
+}
+void UGrabber::Released() {
+	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
 }
 
 
