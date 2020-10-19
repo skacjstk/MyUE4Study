@@ -39,7 +39,7 @@ void UGrabber::BeginPlay()
 		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
 		inputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Released);
 	}
-}
+} 
 
 void UGrabber::Grab() {
 	UE_LOG(LogTemp, Warning, TEXT("Grabber Press %s!"),"!");
