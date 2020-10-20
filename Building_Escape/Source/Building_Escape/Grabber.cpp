@@ -14,8 +14,6 @@ UGrabber::UGrabber()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
@@ -23,8 +21,11 @@ UGrabber::UGrabber()
 void UGrabber::BeginPlay()
 {
 	Super::BeginPlay();
-	// ...
-//	UE_LOG(LogTemp, Warning, TEXT("Grabber reporting for duty"));
+	FindPhysicsHandle();
+	SetupInputComponent();
+
+} 
+void UGrabber::FindPhysicsHandle() {
 	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (physicsHandle) {
 		//pyhcics is found
@@ -32,29 +33,40 @@ void UGrabber::BeginPlay()
 	else {
 		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
 	}
-	 
+}
+void UGrabber::SetupInputComponent() {
 	inputComponent = GetOwner()->FindComponentByClass<UInputComponent>(); //가장 처음 발견된 것만 가져옴
 	if (inputComponent) {
 		UE_LOG(LogTemp, Warning, TEXT("input Component found on %s!"), *GetOwner()->GetName());
 		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
 		inputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Released);
 	}
-} 
+}
 
 void UGrabber::Grab() {
 	UE_LOG(LogTemp, Warning, TEXT("Grabber Press %s!"),"!");
+
+	//TODO, to only raycast when key is pressed and see if 
+
+	//try and raech any actors with physics body collision channel set
+
+	//If you hit something then attach the physics handle
+	// TODO attach physics handle
+	GetFirstPhysicsBodyReach();
 }
 void UGrabber::Released() {
 	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
+	//TODO remove/release thy physics handle
 }
-
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+//	GetFirstPhysicsBodyReach();
+}
 
-
+FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
 	// 플레이어 뷰포트 얻기
 	FVector playerViewPointLocation;
 	FRotator playerViewPointRotation;
@@ -63,9 +75,30 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		OUT playerViewPointLocation,
 		OUT playerViewPointRotation
 	);
+	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
+
 	//define OUT, 코드의 가독성을 위해 out parameter 임을 명시함.
 	//플레이어가 보는 거리 줄 그리기
-	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
+	FHitResult hit;
+	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner()); //false 가 자기자신 제외
+
+	//ray-cast out to a certain distance (reach) 
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT hit,
+		playerViewPointLocation,
+		lineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		traceParams
+	);
+	AActor* actorHit = hit.GetActor();
+	if (actorHit)
+		UE_LOG(LogTemp, Display, TEXT("Hit Object is: %s"), *(actorHit->GetName()));
+
+	return hit;
+}
+
+
+/*
 	DrawDebugLine(
 		GetWorld(),
 		playerViewPointLocation,
@@ -76,6 +109,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		0,
 		5.f			//5픽셀?
 	);
+
 	// Rotation 이 내가 보는 방향의 x y z 를 0~1 사이의 값으로 표현해주고 ....
 	//	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
 	//	FVector question2 = playerViewPointRotation.Vector();
@@ -87,27 +121,10 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	//		*question2.ToString(),
 	//		*question3.ToString()
 	//	);
-	 
+
 	//	UE_LOG(LogTemp, Warning, TEXT("player Location: %s , Rotation: %s , lineTraceEnd: %s"),
 	//		*playerViewPointLocation.ToString(),
 	//		*playerViewPointRotation.ToString(),
 	//		*lineTraceEnd.ToString(),
 	//	);
-
-	FHitResult hit;
-	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner());
-	 
-	//ray-cast out to a certain distance (reach) 
-	GetWorld()->LineTraceSingleByObjectType(
-		OUT hit,
-		playerViewPointLocation,
-		lineTraceEnd,
-		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
-		traceParams
-	);
-	AActor* actorHit = hit.GetActor();
-	if(actorHit)
-		UE_LOG(LogTemp, Display, TEXT("Hit Object is: %s"), *(actorHit->GetName()));
-
-}
-
+*/
