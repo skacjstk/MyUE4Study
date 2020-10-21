@@ -25,7 +25,7 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	float reach = 100.f;
+	float reach = 400.f;
 	UPhysicsHandleComponent* physicsHandle = nullptr;
 	UInputComponent* inputComponent = nullptr;
 
@@ -33,7 +33,8 @@ private:
 	void Released();
 	void FindPhysicsHandle();
 	void SetupInputComponent();
-
+	FVector GetLineTraceEnd(FVector &playerViewPointLocation) const;
+	FVector GetLineTraceEnd() const;
 	//반환 첫번째 엑터 피직스 바디에 닿은 거
 	FHitResult GetFirstPhysicsBodyReach() const;
 };

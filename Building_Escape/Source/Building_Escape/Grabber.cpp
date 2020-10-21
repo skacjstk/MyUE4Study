@@ -1,9 +1,9 @@
 // Copyright nam seok won
 
+#include "Grabber.h"
 #include "CollisionQueryParams.h"
 #include "DrawDebugHelpers.h"
 #include "Engine/World.h"
-#include "Grabber.h"
 #include "GameFramework/PlayerController.h"
 
 #define OUT
@@ -44,31 +44,54 @@ void UGrabber::SetupInputComponent() {
 }
 
 void UGrabber::Grab() {
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Press %s!"),"!");
+	UE_LOG(LogTemp, Warning, TEXT("Grabber Pressed!"));	
+	FVector lineTraceEnd = GetLineTraceEnd();
 
-	//TODO, to only raycast when key is pressed and see if 
-
-	//try and raech any actors with physics body collision channel set
-
-	//If you hit something then attach the physics handle
-	// TODO attach physics handle
-	GetFirstPhysicsBodyReach();
+	FHitResult hitResult = GetFirstPhysicsBodyReach();
+	AActor* hitActor = hitResult.GetActor();
+	UPrimitiveComponent* componentToGrab = hitResult.GetComponent();
+	if (hitActor) {
+//		physicsHandle->GrabComponentAtLocation(
+//			componentToGrab,
+//			NAME_None,
+//			lineTraceEnd
+//		);
+		physicsHandle->GrabComponentAtLocationWithRotation(
+			componentToGrab,
+			NAME_None,
+			lineTraceEnd,
+			hitActor->GetActorRotation()
+		);
+	} 
 }
 void UGrabber::Released() {
 	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
-	//TODO remove/release thy physics handle
+	physicsHandle->ReleaseComponent();
 }
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-//	GetFirstPhysicsBodyReach();
-}
 
-FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
-	// 플레이어 뷰포트 얻기
+	FVector lineTraceEnd = GetLineTraceEnd();
+	if (physicsHandle->GrabbedComponent) {
+		physicsHandle->SetTargetLocation(lineTraceEnd);
+	}
+}
+FVector UGrabber::GetLineTraceEnd() const {
 	FVector playerViewPointLocation;
+	FRotator playerViewPointRotation;
+	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+		OUT playerViewPointLocation,
+		OUT playerViewPointRotation
+	);
+	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
+	return lineTraceEnd;
+}
+//playerViewPointLocation 을 얻기 위해 함수 오버로딩함.
+FVector UGrabber::GetLineTraceEnd(FVector &playerViewPointLocation) const{
+
 	FRotator playerViewPointRotation;
 	//out parameter: 반환값이 있는게 아니라, 변수의 주소값이 결과값을 받을 값이 되어 인자로 전달하는 형태
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
@@ -76,9 +99,14 @@ FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
 		OUT playerViewPointRotation
 	);
 	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
+	return lineTraceEnd;
+}
 
+FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
+	// 플레이어 뷰포트 얻기
+	FVector playerViewPointLocation;
+	FVector lineTraceEnd = GetLineTraceEnd(OUT playerViewPointLocation);	
 	//define OUT, 코드의 가독성을 위해 out parameter 임을 명시함.
-	//플레이어가 보는 거리 줄 그리기
 	FHitResult hit;
 	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner()); //false 가 자기자신 제외
 
