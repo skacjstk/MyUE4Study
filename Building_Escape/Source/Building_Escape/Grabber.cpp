@@ -15,8 +15,6 @@ UGrabber::UGrabber()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 }
-
-
 // Called when the game starts
 void UGrabber::BeginPlay()
 {
@@ -25,55 +23,11 @@ void UGrabber::BeginPlay()
 	SetupInputComponent();
 
 } 
-void UGrabber::FindPhysicsHandle() {
-	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (physicsHandle) {
-		//pyhcics is found
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
-	}
-}
-void UGrabber::SetupInputComponent() {
-	inputComponent = GetOwner()->FindComponentByClass<UInputComponent>(); //가장 처음 발견된 것만 가져옴
-	if (inputComponent) {
-		UE_LOG(LogTemp, Warning, TEXT("input Component found on %s!"), *GetOwner()->GetName());
-		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
-		inputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Released);
-	}
-}
-
-void UGrabber::Grab() {
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Pressed!"));	
-	FVector lineTraceEnd = GetLineTraceEnd();
-
-	FHitResult hitResult = GetFirstPhysicsBodyReach();
-	AActor* hitActor = hitResult.GetActor();
-	UPrimitiveComponent* componentToGrab = hitResult.GetComponent();
-	if (hitActor) {
-//		physicsHandle->GrabComponentAtLocation(
-//			componentToGrab,
-//			NAME_None,
-//			lineTraceEnd
-//		);
-		physicsHandle->GrabComponentAtLocationWithRotation(
-			componentToGrab,
-			NAME_None,
-			lineTraceEnd,
-			hitActor->GetActorRotation()
-		);
-	} 
-}
-void UGrabber::Released() {
-	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
-	physicsHandle->ReleaseComponent();
-}
 
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
 	FVector lineTraceEnd = GetLineTraceEnd();
 	if (physicsHandle->GrabbedComponent) {
 		physicsHandle->SetTargetLocation(lineTraceEnd);
@@ -86,8 +40,41 @@ FVector UGrabber::GetLineTraceEnd() const {
 		OUT playerViewPointLocation,
 		OUT playerViewPointRotation
 	);
-	FVector lineTraceEnd = playerViewPointLocation + playerViewPointRotation.Vector()* reach;
-	return lineTraceEnd;
+	return playerViewPointLocation + playerViewPointRotation.Vector()* reach;
+}
+void UGrabber::SetupInputComponent() {
+	inputComponent = GetOwner()->FindComponentByClass<UInputComponent>(); //가장 처음 발견된 것만 가져옴
+	if (inputComponent) {
+		UE_LOG(LogTemp, Warning, TEXT("input Component found on %s!"), *GetOwner()->GetName());
+		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+		inputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Released);
+	}
+}
+void UGrabber::FindPhysicsHandle() {
+	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+	if (physicsHandle == nullptr) {
+		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
+	}
+}
+void UGrabber::Grab() {
+//	UE_LOG(LogTemp, Warning, TEXT("Grabber Pressed!"));	
+	FVector lineTraceEnd = GetLineTraceEnd();
+
+	FHitResult hitResult = GetFirstPhysicsBodyReach();
+	AActor* hitActor = hitResult.GetActor();
+	UPrimitiveComponent* componentToGrab = hitResult.GetComponent();
+	if (hitActor) {
+		physicsHandle->GrabComponentAtLocationWithRotation(
+			componentToGrab,
+			NAME_None,
+			lineTraceEnd,
+			hitActor->GetActorRotation()	// 000 으로 해도 잡을때를 기준으로 고정된다. 		
+		);
+	} 
+}
+void UGrabber::Released() {
+//	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
+	physicsHandle->ReleaseComponent();
 }
 //playerViewPointLocation 을 얻기 위해 함수 오버로딩함.
 FVector UGrabber::GetLineTraceEnd(FVector &playerViewPointLocation) const{
