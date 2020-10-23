@@ -2,10 +2,12 @@
 
 
 #include "OpenDoor.h"
+#include "Components/PrimitiveComponent.h"
 #include "Engine/World.h"
 #include "GameFramework/Actor.h"
 #include "GameFramework/PlayerController.h"
 
+#define OUT
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
 {
@@ -29,22 +31,17 @@ void UOpenDoor::BeginPlay()
 	//openAngle 는 90.0f로 초기화되어 있다. 
 	if (!PressurePlate) {
 		UE_LOG(LogTemp, Error, TEXT("%s has the open door component on it, but no pressurePlate set!*"), *GetOwner()->GetName());
-	//	GetOwner()->SetActorTickEnabled(false);
 	}
 	else {
-	//	GetOwner()->SetActorTickEnabled(true);
 		ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 	}
-
 }
-//https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/__ctor/5/index.html
-//YZX  (피치 요 롤 순서)
 
 // Called every frame
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)) {
+	if (TotalMassOfActors() > MassToOpenDoor) {
 		OpenDoor(DeltaTime);
 		doorLastOpened = GetWorld()->GetTimeSeconds();
 		// 문이 마지막에 열린 시간. = 문이 열린 시간
@@ -57,8 +54,6 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 }
 void UOpenDoor::CloseDoor(float DeltaTime)
 {
-//	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
-//	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator closeDoor = GetOwner()->GetActorRotation();
 	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, doorCloseSpeed);
 	
@@ -67,18 +62,30 @@ void UOpenDoor::CloseDoor(float DeltaTime)
 }
 void UOpenDoor::OpenDoor(float DeltaTime)
 {
-//	UE_LOG(LogTemp, Warning, TEXT("%s"), *GetOwner()->GetActorRotation().ToString());
-//	UE_LOG(LogTemp, Warning, TEXT("Yaw is %f"), GetOwner()->GetActorRotation().Yaw);
 	FRotator openDoor = GetOwner()->GetActorRotation();
-	//Change Yaw of OpenDoor
-//	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, openAngle, DeltaTime, 45); //이게 선형보간,
-//	currentYaw = FMath::Lerp(currentYaw, openAngle, 0.03f);
-//	currentYaw = FMath::Lerp(currentYaw, openAngle, DeltaTime * doorMoveSpeed);
 	currentYaw = FMath::FInterpTo(currentYaw, openAngle, DeltaTime, doorOpenSpeed);  //얘랑 Lerp 가 지수 보간
-//	UE_LOG(LogTemp, Warning, TEXT("DeltaTime is %f"), DeltaTime);
-
 	openDoor.Yaw = currentYaw;
 	GetOwner()->SetActorRotation(openDoor);
 }
 
+float UOpenDoor::TotalMassOfActors() const {
+	float totalMass = 0.f;
+	//overlapping actor 모두 찾기
+	TArray<AActor*> overLappingActors;
+	PressurePlate->GetOverlappingActors(OUT overLappingActors);
+	for (AActor* Actor : overLappingActors) {
+		totalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+//		UE_LOG(LogTemp, Warning, TEXT("%s is on the pressurePlate!"), *Actor->GetName());
+	}
+	//그들의 질량들 더하기
+	return totalMass;
+}
 
+
+//https://docs.unrealengine.com/en-US/API/Runtime/Core/Math/FRotator/AActor/5/index.html
+//YZX  (피치 요 롤 순서)
+
+	//Change Yaw of OpenDoor
+//	openDoor.Yaw = FMath::FInterpConstantTo(currentYaw, openAngle, DeltaTime, 45); //이게 선형보간,
+//	currentYaw = FMath::Lerp(currentYaw, openAngle, 0.03f);
+//	currentYaw = FMath::Lerp(currentYaw, openAngle, DeltaTime * doorMoveSpeed);

@@ -1,4 +1,4 @@
-// Copyright nam seok won
+ï»¿// Copyright nam seok won
 
 #include "Grabber.h"
 #include "CollisionQueryParams.h"
@@ -43,7 +43,7 @@ FVector UGrabber::GetLineTraceEnd() const {
 	return playerViewPointLocation + playerViewPointRotation.Vector()* reach;
 }
 void UGrabber::SetupInputComponent() {
-	inputComponent = GetOwner()->FindComponentByClass<UInputComponent>(); //°¡Àå Ã³À½ ¹ß°ßµÈ °Í¸¸ °¡Á®¿È
+	inputComponent = GetOwner()->FindComponentByClass<UInputComponent>(); //ê°€ì¥ ì²˜ìŒ ë°œê²¬ëœ ê²ƒë§Œ ê°€ì ¸ì˜´
 	if (inputComponent) {
 		UE_LOG(LogTemp, Warning, TEXT("input Component found on %s!"), *GetOwner()->GetName());
 		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
@@ -68,7 +68,7 @@ void UGrabber::Grab() {
 			componentToGrab,
 			NAME_None,
 			lineTraceEnd,
-			hitActor->GetActorRotation()	// 000 À¸·Î ÇØµµ ÀâÀ»¶§¸¦ ±âÁØÀ¸·Î °íÁ¤µÈ´Ù. 		
+			hitActor->GetActorRotation()	// 000 ìœ¼ë¡œ í•´ë„ ì¡ì„ë•Œë¥¼ ê¸°ì¤€ìœ¼ë¡œ ê³ ì •ëœë‹¤. 		
 		);
 	} 
 }
@@ -76,11 +76,11 @@ void UGrabber::Released() {
 //	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
 	physicsHandle->ReleaseComponent();
 }
-//playerViewPointLocation À» ¾ò±â À§ÇØ ÇÔ¼ö ¿À¹ö·ÎµùÇÔ.
+//playerViewPointLocation ì„ ì–»ê¸° ìœ„í•´ í•¨ìˆ˜ ì˜¤ë²„ë¡œë”©í•¨.
 FVector UGrabber::GetLineTraceEnd(FVector &playerViewPointLocation) const{
 
 	FRotator playerViewPointRotation;
-	//out parameter: ¹İÈ¯°ªÀÌ ÀÖ´Â°Ô ¾Æ´Ï¶ó, º¯¼öÀÇ ÁÖ¼Ò°ªÀÌ °á°ú°ªÀ» ¹ŞÀ» °ªÀÌ µÇ¾î ÀÎÀÚ·Î Àü´ŞÇÏ´Â ÇüÅÂ
+	//out parameter: ë°˜í™˜ê°’ì´ ìˆëŠ”ê²Œ ì•„ë‹ˆë¼, ë³€ìˆ˜ì˜ ì£¼ì†Œê°’ì´ ê²°ê³¼ê°’ì„ ë°›ì„ ê°’ì´ ë˜ì–´ ì¸ìë¡œ ì „ë‹¬í•˜ëŠ” í˜•íƒœ
 	GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
 		OUT playerViewPointLocation,
 		OUT playerViewPointRotation
@@ -90,12 +90,12 @@ FVector UGrabber::GetLineTraceEnd(FVector &playerViewPointLocation) const{
 }
 
 FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
-	// ÇÃ·¹ÀÌ¾î ºäÆ÷Æ® ¾ò±â
+	// í”Œë ˆì´ì–´ ë·°í¬íŠ¸ ì–»ê¸°
 	FVector playerViewPointLocation;
 	FVector lineTraceEnd = GetLineTraceEnd(OUT playerViewPointLocation);	
-	//define OUT, ÄÚµåÀÇ °¡µ¶¼ºÀ» À§ÇØ out parameter ÀÓÀ» ¸í½ÃÇÔ.
+	//define OUT, ì½”ë“œì˜ ê°€ë…ì„±ì„ ìœ„í•´ out parameter ì„ì„ ëª…ì‹œí•¨.
 	FHitResult hit;
-	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner()); //false °¡ ÀÚ±âÀÚ½Å Á¦¿Ü
+	FCollisionQueryParams traceParams(FName(TEXT("")), false, GetOwner()); //false ê°€ ìê¸°ìì‹  ì œì™¸
 
 	//ray-cast out to a certain distance (reach) 
 	GetWorld()->LineTraceSingleByObjectType(
@@ -118,14 +118,14 @@ FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
 		GetWorld(),
 		playerViewPointLocation,
 		lineTraceEnd,
-		FColor(0, 255, 0),	//ÃÊ·Ï ¼±
+		FColor(0, 255, 0),	//ì´ˆë¡ ì„ 
 		false,
 		0.f,
 		0,
-		5.f			//5ÇÈ¼¿?
+		5.f			//5í”½ì…€?
 	);
 
-	// Rotation ÀÌ ³»°¡ º¸´Â ¹æÇâÀÇ x y z ¸¦ 0~1 »çÀÌÀÇ °ªÀ¸·Î Ç¥ÇöÇØÁÖ°í ....
+	// Rotation ì´ ë‚´ê°€ ë³´ëŠ” ë°©í–¥ì˜ x y z ë¥¼ 0~1 ì‚¬ì´ì˜ ê°’ìœ¼ë¡œ í‘œí˜„í•´ì£¼ê³  ....
 	//	FVector question = playerViewPointLocation + playerViewPointRotation.Vector();
 	//	FVector question2 = playerViewPointRotation.Vector();
 	//	FVector question3 = playerViewPointRotation.Vector()*reach;

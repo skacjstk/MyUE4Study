@@ -1,4 +1,4 @@
-// Copyright nam seok won
+ï»¿// Copyright nam seok won
 
 #pragma once
 
@@ -35,6 +35,6 @@ private:
 	void SetupInputComponent();
 	FVector GetLineTraceEnd(FVector &playerViewPointLocation) const;
 	FVector GetLineTraceEnd() const;
-	//¹İÈ¯ Ã¹¹øÂ° ¿¢ÅÍ ÇÇÁ÷½º ¹Ùµğ¿¡ ´êÀº °Å
+	//ë°˜í™˜ ì²«ë²ˆì§¸ ì—‘í„° í”¼ì§ìŠ¤ ë°”ë””ì— ë‹¿ì€ ê±°
 	FHitResult GetFirstPhysicsBodyReach() const;
 };
