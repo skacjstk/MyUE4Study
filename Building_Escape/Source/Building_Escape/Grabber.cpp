@@ -21,9 +21,7 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 	FindPhysicsHandle();
 	SetupInputComponent();
-
 } 
-
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
@@ -52,7 +50,7 @@ void UGrabber::SetupInputComponent() {
 }
 void UGrabber::FindPhysicsHandle() {
 	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (physicsHandle == nullptr) {
+	if (!physicsHandle) {
 		UE_LOG(LogTemp, Error, TEXT("No physics handle component found on %s!"), *GetOwner()->GetName());
 	}
 }
@@ -64,6 +62,7 @@ void UGrabber::Grab() {
 	AActor* hitActor = hitResult.GetActor();
 	UPrimitiveComponent* componentToGrab = hitResult.GetComponent();
 	if (hitActor) {
+		if (!CheckPhysicsHandle()) { return; } //널 포인터 보호
 		physicsHandle->GrabComponentAtLocationWithRotation(
 			componentToGrab,
 			NAME_None,
@@ -74,8 +73,10 @@ void UGrabber::Grab() {
 }
 void UGrabber::Released() {
 //	UE_LOG(LogTemp, Warning, TEXT("Grabber Released %s!"), "!");
+	if (!CheckPhysicsHandle()) { return; } //널 포인터 보호
 	physicsHandle->ReleaseComponent();
 }
+
 //playerViewPointLocation 을 얻기 위해 함수 오버로딩함.
 FVector UGrabber::GetLineTraceEnd(FVector &playerViewPointLocation) const{
 
@@ -111,7 +112,12 @@ FHitResult UGrabber::GetFirstPhysicsBodyReach() const{
 
 	return hit;
 }
+bool UGrabber::CheckPhysicsHandle() {
+	if (physicsHandle) { return true; }
 
+	UE_LOG(LogTemp, Display, TEXT("No PhysicsHandle found! (nullptr Error)") );
+	return false;
+}
 
 /*
 	DrawDebugLine(

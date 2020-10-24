@@ -33,6 +33,7 @@ private:
 	void Released();
 	void FindPhysicsHandle();
 	void SetupInputComponent();
+	bool CheckPhysicsHandle();
 	FVector GetLineTraceEnd(FVector &playerViewPointLocation) const;
 	FVector GetLineTraceEnd() const;
 	//반환 첫번째 엑터 피직스 바디에 닿은 거
