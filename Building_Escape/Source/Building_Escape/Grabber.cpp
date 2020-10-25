@@ -47,7 +47,7 @@ void UGrabber::SetupInputComponent() {
 		inputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
 		inputComponent->BindAction("Grab", IE_Released, this, &UGrabber::Released);
 	}
-}
+} 
 void UGrabber::FindPhysicsHandle() {
 	physicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
 	if (!physicsHandle) {
