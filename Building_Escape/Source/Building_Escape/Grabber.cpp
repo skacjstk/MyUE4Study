@@ -22,6 +22,7 @@ void UGrabber::BeginPlay()
 	FindPhysicsHandle();
 	SetupInputComponent();
 } 
+
 // Called every frame
 void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {

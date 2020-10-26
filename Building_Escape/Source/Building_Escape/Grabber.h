@@ -26,7 +26,9 @@ protected:
 
 private:
 	float reach = 250.f;
+	UPROPERTY()
 	UPhysicsHandleComponent* physicsHandle = nullptr;
+	UPROPERTY()
 	UInputComponent* inputComponent = nullptr;
 
 	void Grab();
