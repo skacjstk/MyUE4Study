@@ -36,8 +36,7 @@ void UOpenDoor::BeginPlay()
 	}
 }
 void UOpenDoor::FindAudioComponent() {
-	audioComponent = GetOwner()->FindComponentByClass<UAudioComponent>();
-	//함수화 하기 귀찮다.
+	audioComponent = GetOwner()->FindComponentByClass<UAudioComponent>();	
 	if (!audioComponent) {
 		UE_LOG(LogTemp, Error, TEXT("%s missing AudioComponent"), *GetOwner()->GetName());
 	}
@@ -47,6 +46,8 @@ void UOpenDoor::FindAudioComponent() {
 void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+//	UE_LOG(LogTemp, Error, TEXT("I can do this all day"));
+
 	if (TotalMassOfActors() > MassToOpenDoor) {
 		OpenDoor(DeltaTime);
 		doorLastOpened = GetWorld()->GetTimeSeconds();
@@ -70,8 +71,7 @@ void UOpenDoor::OpenDoor(float DeltaTime)
 void UOpenDoor::CloseDoor(float DeltaTime)
 {
 	FRotator closeDoor = GetOwner()->GetActorRotation();
-	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, doorCloseSpeed);
-	
+	currentYaw = FMath::FInterpTo(currentYaw, initialYaw, DeltaTime, doorCloseSpeed);	
 	closeDoor.Yaw = currentYaw;
 	GetOwner()->SetActorRotation(closeDoor);
 	DoorSoundPlayOnce(false);
@@ -92,9 +92,10 @@ float UOpenDoor::TotalMassOfActors() const {
 	//overlapping actor 모두 찾기
 	TArray<AActor*> overLappingActors;
 	if(PressurePlate){
-		PressurePlate->GetOverlappingActors(OUT overLappingActors);
+		PressurePlate->GetOverlappingActors(OUT overLappingActors);		
 	}
-	else return totalMass;
+	else 
+		return totalMass; 
 	for (AActor* Actor : overLappingActors) {
 		totalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
 //		UE_LOG(LogTemp, Warning, TEXT("%s is on the pressurePlate!"), *Actor->GetName());
