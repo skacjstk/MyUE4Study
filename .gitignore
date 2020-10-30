@@ -366,7 +366,15 @@ MigrationBackup/
 /Building_Escape/Content/Notitle_BuiltData.uasset
 /Building_Escape/Content/Notitle.umap
 /Building_Escape/Content/BluePrints/
-/ToonTanks/
 
+#¿©±â¼­ 
+#/ToonTanks/
+ToonTanks/Binaries/
+ToonTanks/Config
+ToonTanks/Content
+ToonTanks/Intermediate
+ToonTanks/Saved
+ToonTanks/ToonTanks.sln
+ToonTanks/ToonTanks.uproject
 
 
