@@ -367,7 +367,7 @@ MigrationBackup/
 /Building_Escape/Content/Notitle.umap
 /Building_Escape/Content/BluePrints/
 
-#여기서 
+#https://git-scm.com/docs/gitignore 여기서 느낌표의 제외는 상위 디렉토리가 제외된 경우 포함 불가
 #/ToonTanks/
 ToonTanks/Binaries/
 ToonTanks/Config
