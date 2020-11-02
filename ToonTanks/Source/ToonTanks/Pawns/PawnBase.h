@@ -14,14 +14,15 @@ class TOONTANKS_API APawnBase : public APawn
 	GENERATED_BODY()
 
 private:
-	UPROPERTY()
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category ="Components" , meta = (AllowPrivateAccess = "true"))
 	UCapsuleComponent* CapsuleComp = nullptr;
-	UPROPERTY()
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BaseMesh;
-	UPROPERTY()
+	UPROPERTY(VisibleAnyWhere, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* TurretMesh;
-	UPROPERTY()
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;
+	//현재로썬 visible은 보이기, 그 뒤 인자는 변수 수정 인거같은데 
 
 public:
 	// Sets default values for this pawn's properties
