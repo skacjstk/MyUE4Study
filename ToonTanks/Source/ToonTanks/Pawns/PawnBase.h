@@ -22,20 +22,16 @@ private:
 	UStaticMeshComponent* TurretMesh;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;
-	//현재로썬 visible은 보이기, 그 뒤 인자는 변수 수정 인거같은데 
 
+	//현재로썬 visible은 보이기, 그 뒤 인자는 변수 수정 인거같은데 
+	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+		int EditA_BPReadOnly = 1;
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+		int VisibleA_BPReadOnly = 1;
 public:
 	// Sets default values for this pawn's properties
 	APawnBase();
 
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
 
 };
