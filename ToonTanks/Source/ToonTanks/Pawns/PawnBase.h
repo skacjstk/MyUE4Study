@@ -21,7 +21,7 @@ private:
 	UPROPERTY(VisibleAnyWhere, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* TurretMesh;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
-	USceneComponent* ProjectileSpawnPoint;
+	USceneComponent* ProjectileSpawnPoint;	//투사체 스폰 포인트
 
 	//현재로썬 visible은 보이기, 그 뒤 인자는 변수 수정 인거같은데 
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
