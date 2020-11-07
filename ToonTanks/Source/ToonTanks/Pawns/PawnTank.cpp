@@ -8,7 +8,7 @@
 
 APawnTank::APawnTank() {
 	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
-	SpringArm->SetupAttachment(RootComponent);
+	SpringArm->SetupAttachment(TurretMesh); //강의에서는 RootComponent
 
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
@@ -40,12 +40,13 @@ void APawnTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 }
 void APawnTank::CalculateMoveInput(float Value)
 {
+	MoveVector = Value;	//현재 앞으로가는가 뒤로가는가. ( rotate 계산용 )
 	MoveDirection = FVector(Value * MoveSpeed * GetWorld()->DeltaTimeSeconds, 0, 0);
 }
 
 void APawnTank::CalculateRotaterInput(float Value)
 {
-	float RotaterAmount = Value * RotateSpeed * GetWorld()->DeltaTimeSeconds;
+	float RotaterAmount = MoveVector * Value * RotateSpeed * GetWorld()->DeltaTimeSeconds;
 	FRotator Rotation = FRotator(0, RotaterAmount, 0);
 	RotationDirection = FQuat(Rotation);
 }
