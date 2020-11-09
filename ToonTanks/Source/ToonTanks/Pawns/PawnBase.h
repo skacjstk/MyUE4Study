@@ -24,8 +24,17 @@ protected:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowProtectedAccess = "true"))
 		UStaticMeshComponent* TurretMesh;
 
+	void RotateTurretFunction(FVector LookAtTarget);
+	
+	void Fire();
 
-	//현재로썬 visible은 보이기, 그 뒤 인자는 변수 수정 인거같은데 
+	virtual void HandleDestruction();
+
+
+
+
+
+//현재로썬 visible은 보이기, 그 뒤 인자는 변수 수정 인거같은데 
 //	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 //		int EditA_BPReadOnly = 1;
 //	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
