@@ -27,14 +27,18 @@ APawnBase::APawnBase()
 
 }
 
-void APawnBase::RotateTurretFunction(FVector LookAtTarget)
+void APawnBase::RotateTurret(FVector LookAtTarget)
 {
-	//LookAtTarget 과 자식 클래스의 방향을 업데이트할 것.
-	//TurretMesh->SetWorldRotation()...
+	FVector LookAtTargetCleaned = FVector(LookAtTarget.X, LookAtTarget.Y, TurretMesh->GetComponentLocation().Z);
+	FVector StartLocation = TurretMesh->GetComponentLocation();
+	FRotator TurretRotation = FVector(LookAtTargetCleaned - StartLocation).Rotation();
+
+	TurretMesh->SetWorldRotation(TurretRotation);
 }
 
 void APawnBase::Fire()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Fire  성공!"));
 	// ProjectileSpawnPoint Location 과 Rotation 가져와서 -> Projectile 크래스 소환 at Location  후 Rotation을 향해 발사
 }
 

@@ -34,6 +34,9 @@ private:
 
 	float MoveVector = 0.f;
 
+	APlayerController* PlayerConrollerRef;
+	
+
 	void CalculateMoveInput(float Value);
 	void CalculateRotaterInput(float Value);
 
@@ -52,4 +55,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	virtual void HandleDestruction() override;
 };

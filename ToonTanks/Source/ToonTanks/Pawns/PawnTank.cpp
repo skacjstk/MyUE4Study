@@ -13,6 +13,11 @@ APawnTank::APawnTank() {
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 }
+void APawnTank::HandleDestruction()
+{
+	Super::HandleDestruction();
+	//Hide player TODO Create new function to handle this 
+}
 
 
 // Called when the game starts or when spawned
@@ -20,14 +25,24 @@ void APawnTank::BeginPlay()
 {
 	Super::BeginPlay();
 
+	PlayerConrollerRef = Cast<APlayerController>(GetController());
 }
 
 // Called every frame
 void APawnTank::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
 	Rotate();
 	Move();
+
+	if (PlayerConrollerRef) {
+		FHitResult TraceHitResult;
+		PlayerConrollerRef->GetHitResultUnderCursor(ECC_Visibility, false, TraceHitResult);
+		FVector HitLocation = TraceHitResult.ImpactPoint;
+
+		RotateTurret(HitLocation);
+	}
 }
 
 // Called to bind functionality to input
@@ -37,6 +52,8 @@ void APawnTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("MoveForward", this, &APawnTank::CalculateMoveInput);
 	PlayerInputComponent->BindAxis("Turn", this, &APawnTank::CalculateRotaterInput);
 	//axis 는 매 프레임 마다 반응. action 은 action 할 때 반응	https://docs.unrealengine.com/ko/Programming/Tutorials/PlayerInput/3/index.html
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &APawnTank::Fire);
+
 }
 void APawnTank::CalculateMoveInput(float Value)
 {

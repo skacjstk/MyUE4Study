@@ -24,11 +24,11 @@ protected:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowProtectedAccess = "true"))
 		UStaticMeshComponent* TurretMesh;
 
-	void RotateTurretFunction(FVector LookAtTarget);
+	void RotateTurret(FVector LookAtTarget);
 	
 	void Fire();
 
-	virtual void HandleDestruction();
+	virtual void HandleDestruction(); 
 
 
 

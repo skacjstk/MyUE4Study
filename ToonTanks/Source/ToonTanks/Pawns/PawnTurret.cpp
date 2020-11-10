@@ -15,11 +15,21 @@ void APawnTurret::BeginPlay()
 	PlayerPawn = Cast<APawnTank>(UGameplayStatics::GetPlayerPawn(this, 0));
 }
 
+void APawnTurret::HandleDestruction() 
+{
+	Super::HandleDestruction();
+	Destroy();
+}
+
 // Called every frame
 void APawnTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if (!PlayerPawn || ReturnDistanceToPlayer() > FireRange) {
+		return;
+		
+	}
+	RotateTurret(PlayerPawn->GetActorLocation());
 }
 void APawnTurret::CheckFireCondition() 
 {
@@ -28,9 +38,8 @@ void APawnTurret::CheckFireCondition()
 		return;
 	}
 	// If player 가 사거리 내로 왔을 때 FIRE
-	if (ReturnDistanceToPlayer() <= FireRange) {
-		// Fire
-		UE_LOG(LogTemp, Warning, TEXT("Fire Condition 성공!"));
+	if (ReturnDistanceToPlayer() <= FireRange) {		
+		Fire();
 	}
 }
 
@@ -42,3 +51,4 @@ float APawnTurret::ReturnDistanceToPlayer()
 
 	return FVector::Dist(PlayerPawn->GetActorLocation(), GetActorLocation());	
 }
+
