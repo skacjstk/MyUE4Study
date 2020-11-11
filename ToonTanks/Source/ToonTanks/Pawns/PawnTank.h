@@ -28,20 +28,25 @@ private:
 	FQuat RotationDirection;
 
 	UPROPERTY(EditAnyWhere, BluePrintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
-	float MoveSpeed = 100.0f;
+	float MoveSpeed = 500.0f;
 	UPROPERTY(EditAnyWhere, BluePrintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float RotateSpeed = 100.0f;
 
+	UPROPERTY(EditAnyWhere, BluePrintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	float TurretRotateSpeed = 0.50f;
+	//내가 임의로 만듬.
 	float MoveVector = 0.f;
 
+	FRotator TankRotate;
 	APlayerController* PlayerConrollerRef;
 	
 
 	void CalculateMoveInput(float Value);
 	void CalculateRotaterInput(float Value);
-
 	void Move();
 	void Rotate();
+	//내가 임의로 만듬.
+	void RotateTurretKeyBoard(float Value);
 
 public:
 	APawnTank();

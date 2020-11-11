@@ -11,7 +11,7 @@
 APawnBase::APawnBase() 
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
 	RootComponent = CapsuleComp;
@@ -38,7 +38,7 @@ void APawnBase::RotateTurret(FVector LookAtTarget)
 
 void APawnBase::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Fire  성공!"));
+	UE_LOG(LogTemp, Warning, TEXT("Fire  Success!"));
 	// ProjectileSpawnPoint Location 과 Rotation 가져와서 -> Projectile 크래스 소환 at Location  후 Rotation을 향해 발사
 }
 
