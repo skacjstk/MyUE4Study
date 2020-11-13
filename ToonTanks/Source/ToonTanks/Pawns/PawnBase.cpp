@@ -2,16 +2,16 @@
 
 
 #include "PawnBase.h"
+#include "ToonTanks/Actors/ProjectileBase.h"
+#include "Components/SceneComponent.h"
 #include "Components/CapsuleComponent.h"
-
-
 
 
 // Sets default values 
 APawnBase::APawnBase() 
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true; //이거 false하면 하위들도 동작안함
 
 	CapsuleComp = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule Collider"));
 	RootComponent = CapsuleComp;
@@ -37,9 +37,16 @@ void APawnBase::RotateTurret(FVector LookAtTarget)
 }
 
 void APawnBase::Fire()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Fire  Success!"));
+{	
+	
 	// ProjectileSpawnPoint Location 과 Rotation 가져와서 -> Projectile 크래스 소환 at Location  후 Rotation을 향해 발사
+	if (ProjectileClass) {
+		FVector	SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
+		FRotator SpawnRotation = ProjectileSpawnPoint->GetComponentRotation();
+		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnLocation, SpawnRotation);
+		TempProjectile->SetOwner(this);
+	} 
+	UE_LOG(LogTemp, Warning, TEXT("Fire Complete!"));
 }
 
 void APawnBase::HandleDestruction()

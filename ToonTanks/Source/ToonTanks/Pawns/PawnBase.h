@@ -7,6 +7,7 @@
 #include "PawnBase.generated.h"
 
 class UCapsuleComponent;
+class AProjectileBase;
 
 UCLASS()
 class TOONTANKS_API APawnBase : public APawn
@@ -14,18 +15,21 @@ class TOONTANKS_API APawnBase : public APawn
 	GENERATED_BODY()
 
 private:
+	//Components
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCapsuleComponent* CapsuleComp = nullptr;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* BaseMesh;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;	//투사체 스폰 포인트
+	//Variables
+	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
+		TSubclassOf<AProjectileBase> ProjectileClass;
 protected:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowProtectedAccess = "true"))
-		UStaticMeshComponent* TurretMesh;
+	UStaticMeshComponent* TurretMesh;
 
 	void RotateTurret(FVector LookAtTarget);
-	
 	void Fire();
 
 	virtual void HandleDestruction(); 
