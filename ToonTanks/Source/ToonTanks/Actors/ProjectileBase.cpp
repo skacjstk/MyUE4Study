@@ -34,7 +34,6 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	if (!MyOwner)
 		return;
 
-
 	if (OtherActor && OtherActor != this && OtherActor != MyOwner) {
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
 	}

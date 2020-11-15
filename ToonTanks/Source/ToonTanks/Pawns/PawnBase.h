@@ -22,6 +22,7 @@ private:
 	UStaticMeshComponent* BaseMesh;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;	//투사체 스폰 포인트
+
 	//Variables
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<AProjectileBase> ProjectileClass;

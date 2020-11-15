@@ -37,8 +37,7 @@ void APawnBase::RotateTurret(FVector LookAtTarget)
 }
 
 void APawnBase::Fire()
-{	
-	
+{		
 	// ProjectileSpawnPoint Location 과 Rotation 가져와서 -> Projectile 크래스 소환 at Location  후 Rotation을 향해 발사
 	if (ProjectileClass) {
 		FVector	SpawnLocation = ProjectileSpawnPoint->GetComponentLocation();
@@ -46,9 +45,9 @@ void APawnBase::Fire()
 		AProjectileBase* TempProjectile = GetWorld()->SpawnActor<AProjectileBase>(ProjectileClass, SpawnLocation, SpawnRotation);
 		TempProjectile->SetOwner(this);
 	} 
-	UE_LOG(LogTemp, Warning, TEXT("Fire Complete!"));
+//	UE_LOG(LogTemp, Warning, TEXT("Fire Complete!"));
 }
-
+ 
 void APawnBase::HandleDestruction()
 {
 	//공통 함수기능 
