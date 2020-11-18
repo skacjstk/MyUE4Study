@@ -13,7 +13,7 @@ UHealthComponent::UHealthComponent()
 	// ...
 }
 
-
+ 
 // Called when the game starts
 void UHealthComponent::BeginPlay()
 {
