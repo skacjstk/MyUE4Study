@@ -18,7 +18,7 @@ private:
 	UPROPERTY(EditAnyWhere)
 	float DefaultHealth = 100.0f;
 	float Health = 0.0f;
-
+	 
 	ATankGameModeBase* GameModeRef;
 public:	
 	// Sets default values for this component's properties
