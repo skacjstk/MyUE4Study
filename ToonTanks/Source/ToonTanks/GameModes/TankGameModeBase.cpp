@@ -24,7 +24,7 @@ void ATankGameModeBase::ActorDied(AActor * DeadActor)
 			HandleGameOver(true);
 		}
 	}
-}
+} 
 void ATankGameModeBase::HandleGameStart()
 {
 	TargetTurrets = GetTargetTurretCount();
