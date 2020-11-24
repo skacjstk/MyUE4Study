@@ -17,6 +17,7 @@ void APawnTank::HandleDestruction()
 {
 	Super::HandleDestruction();
 	//Hide player TODO Create new function to handle this 
+	Destroy();
 }
 
 
