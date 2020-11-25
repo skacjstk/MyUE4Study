@@ -26,12 +26,13 @@ void UHealthComponent::BeginPlay()
 	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
 }
 
-void  UHealthComponent::TakeDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigateBy, AActor* DamageCauser)
+void  UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigateBy, AActor* DamageCauser)
 {
 	if (Damage == 0 || Health <= 0)
 		return;
 
 	Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHealth);
+//	UE_LOG(LogTemp, Warning, TEXT("Damage:%.1f, Health%.1f"), Damage, Health);
 
 	if (Health <= 0) {
 		if (GameModeRef) {
