@@ -1,8 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PawnTurret.h"
 #include "PawnTank.h"
+#include "PawnTurret.h"
 #include "Kismet/GameplayStatics.h"
 
 void APawnTurret::BeginPlay()
@@ -11,7 +11,6 @@ void APawnTurret::BeginPlay()
 
 	GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &APawnTurret::CheckFireCondition, FireRate, true);
 	//	GetWorldTimerManager()	같음.
-
 	PlayerPawn = Cast<APawnTank>(UGameplayStatics::GetPlayerPawn(this, 0));
 }
 
@@ -29,12 +28,16 @@ void APawnTurret::Tick(float DeltaTime)
 		return;
 		
 	}
-	RotateTurret(PlayerPawn->GetActorLocation());
+	if (!PlayerPawn->GetIsPlayerAlive()) {
+		UE_LOG(LogTemp, Warning, TEXT("ACtor died"));
+		SetActorTickEnabled(false);
+	}
+	RotateTurret(PlayerPawn->GetActorLocation());	
 }
 void APawnTurret::CheckFireCondition() 
 {
 	// if player == null || is dead then bail
-	if (!PlayerPawn) {
+	if (!PlayerPawn || !PlayerPawn->GetIsPlayerAlive()) {
 		return;
 	}
 	// If player 가 사거리 내로 왔을 때 FIRE

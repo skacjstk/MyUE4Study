@@ -10,7 +10,7 @@
 #include "PawnTank.generated.h"
 
 class USpringArmComponent;
-	class UCameraComponent;
+class UCameraComponent;
 UCLASS()
 class TOONTANKS_API APawnTank : public APawnBase
 {
@@ -39,6 +39,7 @@ private:
 
 	FRotator TankRotate;
 	APlayerController* PlayerConrollerRef;
+	bool bIsPlayerAlive = true;
 	
 
 	void CalculateMoveInput(float Value);
@@ -58,6 +59,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void HandleDestruction() override;
 
+	bool GetIsPlayerAlive();
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
