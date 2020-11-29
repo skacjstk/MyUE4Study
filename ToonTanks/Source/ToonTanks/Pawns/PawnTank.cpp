@@ -21,7 +21,7 @@ void APawnTank::HandleDestruction()
 
 	SetActorHiddenInGame(true);
 	SetActorTickEnabled(false);
-}
+} 
 
 bool APawnTank::GetIsPlayerAlive()
 {
