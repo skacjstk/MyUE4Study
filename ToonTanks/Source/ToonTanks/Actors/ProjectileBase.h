@@ -15,10 +15,14 @@ class TOONTANKS_API AProjectileBase : public AActor
 	GENERATED_BODY()
 	 
 private:
+	//Component
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UProjectileMovementComponent* ProjectileMovement;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UStaticMeshComponent* ProjectileMesh;
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UParticleSystemComponent* ParticleTrail;
+	//°ª
 	UPROPERTY(EditDefaultsOnly, Category = "Damage")
 	TSubclassOf<UDamageType> DamageType;
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Move", meta = (AllowPrivateAccess = "true"))
@@ -26,6 +30,7 @@ private:
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
 	float Damage = 50.f;
 
+	//ÇÔ¼ö
 	UFUNCTION()
 	void OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 	UPROPERTY(EditAnyWhere, Category = "Effects")
