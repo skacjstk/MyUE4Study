@@ -5,7 +5,8 @@
 #include "ToonTanks/Actors/ProjectileBase.h"
 #include "Components/SceneComponent.h"
 #include "Components/CapsuleComponent.h"
-
+#include "ToonTanks/Components/HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values 
 APawnBase::APawnBase() 
@@ -24,6 +25,8 @@ APawnBase::APawnBase()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 
 }
 
@@ -52,7 +55,7 @@ void APawnBase::HandleDestruction()
 {
 	//공통 함수기능 
 	// death 이펙트 파티클 재생, 소리와 카메라 쉐이크
-
+	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
 	//자식클래스 기능
 	//PawnTurret  죽으면 ->Destroy() 스스로 호출
 

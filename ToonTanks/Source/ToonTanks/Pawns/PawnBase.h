@@ -8,6 +8,7 @@
 
 class UCapsuleComponent;
 class AProjectileBase;
+class UHealthComponent;
 
 UCLASS()
 class TOONTANKS_API APawnBase : public APawn
@@ -22,10 +23,16 @@ private:
 	UStaticMeshComponent* BaseMesh;
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;	//투사체 스폰 포인트
+	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
+	UHealthComponent* HealthComponent;
 
+	UPROPERTY(EditANywhere, Category="Effects")
+	UParticleSystem* DeathParticle;
 	//Variables
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
-		TSubclassOf<AProjectileBase> ProjectileClass;
+	TSubclassOf<AProjectileBase> ProjectileClass;
+
+
 protected:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowProtectedAccess = "true"))
 	UStaticMeshComponent* TurretMesh;
