@@ -26,13 +26,14 @@ private:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UHealthComponent* HealthComponent;
 
-	UPROPERTY(EditANywhere, Category="Effects")
-	UParticleSystem* DeathParticle;
+
 	//Variables
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
 	TSubclassOf<AProjectileBase> ProjectileClass;
-
-
+	UPROPERTY(EditAnyWhere, Category = "Effects")
+	USoundBase* DeathSound;
+	UPROPERTY(EditANywhere, Category = "Effects")
+	UParticleSystem* DeathParticle;
 protected:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowProtectedAccess = "true"))
 	UStaticMeshComponent* TurretMesh;

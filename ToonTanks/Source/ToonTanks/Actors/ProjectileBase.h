@@ -29,6 +29,10 @@ private:
 	float MovementSpeed = 1300.f;
 	UPROPERTY(EditAnyWhere, BluePrintReadOnly, Category = "Damage", meta = (AllowPrivateAccess = "true"))
 	float Damage = 50.f;
+	UPROPERTY(EditAnyWhere, Category = "Effects")
+	USoundBase* HitSound;
+	UPROPERTY(EditAnyWhere, Category = "Effects")
+	USoundBase* LaunchSound;
 
 	//ÇÔ¼ö
 	UFUNCTION()
