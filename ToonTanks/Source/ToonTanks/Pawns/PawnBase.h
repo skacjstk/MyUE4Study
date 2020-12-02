@@ -34,6 +34,8 @@ private:
 	USoundBase* DeathSound;
 	UPROPERTY(EditANywhere, Category = "Effects")
 	UParticleSystem* DeathParticle;
+	UPROPERTY(EditANywhere, Category = "Effects")
+	TSubclassOf <UCameraShake> DeathShake;
 protected:
 	UPROPERTY(VisibleAnyWhere, BluePrintReadOnly, Category = "Components", meta = (AllowProtectedAccess = "true"))
 	UStaticMeshComponent* TurretMesh;

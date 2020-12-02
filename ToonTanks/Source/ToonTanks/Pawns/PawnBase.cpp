@@ -57,6 +57,7 @@ void APawnBase::HandleDestruction()
 	// death 이펙트 파티클 재생, 소리와 카메라 쉐이크
 	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
 	UGameplayStatics::SpawnSoundAtLocation(this, DeathSound, GetActorLocation());	//자식클래스 기능
+	GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(DeathShake);
 	//PawnTurret  죽으면 ->Destroy() 스스로 호출
 
 	//PawnTank 죽으면 -> 모든 컴포넌트 Hide() && movement input 비활성화 
