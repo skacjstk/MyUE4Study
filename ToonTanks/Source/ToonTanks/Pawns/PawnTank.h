@@ -48,6 +48,7 @@ private:
 	void Rotate();
 	//내가 임의로 만듬.
 	void RotateTurretKeyBoard(float Value);
+	void UpDownCameraKeyBoard(float Value);
 
 public:
 	APawnTank();

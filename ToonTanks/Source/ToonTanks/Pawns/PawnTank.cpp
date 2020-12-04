@@ -67,6 +67,7 @@ void APawnTank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	//axis 는 매 프레임 마다 반응. action 은 action 할 때 반응	https://docs.unrealengine.com/ko/Programming/Tutorials/PlayerInput/3/index.html
 	PlayerInputComponent->BindAction("Fire",IE_Pressed, this, &APawnTank::Fire);
 	PlayerInputComponent->BindAxis("PlayerTurretTurn",  this, &APawnTank::RotateTurretKeyBoard);
+	PlayerInputComponent->BindAxis("PlayerCameraUpDown", this, &APawnTank::UpDownCameraKeyBoard);
 }
 void APawnTank::CalculateMoveInput(float Value)
 {	
@@ -90,6 +91,34 @@ void APawnTank::RotateTurretKeyBoard(float Value)
 		TankRotate += FRotator(0, Value, 0);
 		TurretMesh->SetWorldRotation(TankRotate);
 	}
+}
+void APawnTank::UpDownCameraKeyBoard(float Value)
+{
+//	if (Value == 0)
+//		return;
+	if (PlayerConrollerRef) { //nullptr 보호
+		FRotator SpringArmRotation = SpringArm->GetComponentRotation();
+		UE_LOG(LogTemp, Warning, TEXT("Camera Rotation %s"), *SpringArmRotation.ToString());
+		//if -10도와 -70도 사이일 때, 올릴때 -1, 내릴 때 +1		
+		float ArmRotate = SpringArmRotation.Pitch;
+	
+		//내릴 떄(+1) 는 ArmRotate가 -10도보다 큰가 
+		if(Value > 0){
+			if(ArmRotate < -10.f){
+				SpringArmRotation += FRotator(Value, 0, 0);
+				SpringArm->SetWorldRotation(SpringArmRotation);
+			}
+		}
+		//올릴 때(-1) 는 ArmRotate가 -70도 보다 작은가
+		else if (Value < 0) {
+			if (ArmRotate > -70.f) {
+				SpringArmRotation += FRotator(Value, 0, 0);
+				SpringArm->SetWorldRotation(SpringArmRotation);
+			}
+		}
+		
+
+	}	
 }
 void APawnTank::Move()
 {
