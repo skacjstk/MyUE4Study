@@ -423,7 +423,8 @@ Plugins/*/Intermediate/*
 # Cache files for the editor to use
 DerivedDataCache/*
 
-
+# All BuiltData File Ignore
+*_BuiltData.uasset
 
 /BullCowGame-starter-kit/Content
 /BullCowGame-starter-kit/Config
