@@ -444,7 +444,7 @@ DerivedDataCache/*
 /Building_Escape/Content/Notitle.umap
 /Building_Escape/Content/BluePrints/
 
-#https://git-scm.com/docs/gitignore ¿©±â¼­ ´À³¦Ç¥ÀÇ Á¦¿Ü´Â »óÀ§ µð·ºÅä¸®°¡ Á¦¿ÜµÈ °æ¿ì Æ÷ÇÔ ºÒ°¡
+#https://git-scm.com/docs/gitignore ï¿½ï¿½ï¿½â¼­ ï¿½ï¿½ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½ï¿½Ü´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ä¸®ï¿½ï¿½ ï¿½ï¿½ï¿½Üµï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ò°ï¿½
 #/ToonTanks/
 ToonTanks/Binaries/
 ToonTanks/Config
@@ -454,7 +454,7 @@ ToonTanks/Saved
 ToonTanks/ToonTanks.sln
 ToonTanks/ToonTanks.uproject
 
-#ÇÐ¿øÆÄÀÏ Á¦¿Ü Æ÷ÇÔ
+#ï¿½Ð¿ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 U03_ThridPerson/Intermediate
 U03_ThridPerson/OriginalPaint_NotIncluded
 U03_ThridPerson/Saved
@@ -467,3 +467,4 @@ U03_ThridPerson_Another/*
 Market/*
 DynamicCombatSystem/*
 *.zip
+TestRenaming/*
