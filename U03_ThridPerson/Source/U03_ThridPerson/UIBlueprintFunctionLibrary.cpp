@@ -51,7 +51,15 @@ bool UUIBlueprintFunctionLibrary::ProjectWorldToScreenBidirectional(APlayerContr
 	return bSuccess;
 }
 
-
+/// <summary>
+/// GrappleUIDirection 의 Screen Space 의 위치를 구하는 함수
+/// </summary>
+/// <param name="WorldContextObject"></param>
+/// <param name="InLocation">GrapplePoint의 World Location</param>
+/// <param name="EdgePercent">Screen Space 바깥일 경우 보여지는 위치값</param>
+/// <param name="OutScreenPosition">Out: 받아지는 ScreenSpace Position</param>
+/// <param name="OutRotationAngleDegrees">거리 비례해서 돌아가는 원의 비율</param>
+/// <param name="bIsOnScreen">Screen 에 있느냐?</param>
 void UUIBlueprintFunctionLibrary::FindScreenEdgeLocationForWorldLocation(UObject* WorldContextObject, const FVector& InLocation, const float EdgePercent, FVector2D& OutScreenPosition, float& OutRotationAngleDegrees, bool& bIsOnScreen)
 {
 	bIsOnScreen = false;
@@ -74,9 +82,11 @@ void UUIBlueprintFunctionLibrary::FindScreenEdgeLocationForWorldLocation(UObject
 	FVector Forward = PlayerCharacter->GetActorForwardVector();
 	FVector Offset = (InLocation - PlayerCharacter->GetActorLocation()).GetSafeNormal();
 
+	// 내적으로 방향의 일치성을 구한다.
 	float DotProduct = FVector::DotProduct(Forward, Offset);
 	bool bLocationIsBehindCamera = (DotProduct < 0);
 
+	// 방향이 일치할 경우
 	if (bLocationIsBehindCamera)
 	{
 		// For behind the camera situation, we cheat a little to put the
